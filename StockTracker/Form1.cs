@@ -12,9 +12,21 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
+        List<string> _stocks = new List<string>(); 
+
         public Form1()
         {
             InitializeComponent();
         }
+
+        private void TickerKeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == '\r')
+            {
+                string ticker = _textBoxTicker.Text.TrimEnd('\n');
+                _stocks.Add(ticker);
+            }
+        }
+
     }
 }
