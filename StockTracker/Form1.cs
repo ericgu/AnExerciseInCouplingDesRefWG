@@ -66,6 +66,13 @@ namespace StockTracker
             RefreshValues(null, null);
             _textBoxTicker.Text = String.Empty;
             _textBoxShares.Text = String.Empty;
+
+            SaveStocks();
+        }
+
+        private void SaveStocks()
+        {
+            throw new NotImplementedException();
         }
     }
 }
