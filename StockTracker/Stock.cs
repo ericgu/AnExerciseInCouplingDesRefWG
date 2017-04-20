@@ -2,16 +2,13 @@ namespace StockTracker
 {
     public class Stock
     {
-        private string _ticker;
-
-        public Stock(string ticker)
+        public Stock(string ticker, double shares)
         {
-            _ticker = ticker;
+            Ticker = ticker;
+            Shares = shares;
         }
 
-        public string Ticker
-        {
-            get { return _ticker; }
-        }
+        public string Ticker { get; }
+        public double Shares { get; }
     }
 }

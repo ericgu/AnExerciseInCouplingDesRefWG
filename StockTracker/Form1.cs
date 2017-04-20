@@ -2,41 +2,27 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Windows.Forms;
+// ReSharper disable SpecifyACultureInStringConversionExplicitly
+// ReSharper disable StringIndexOfIsCultureSpecific.1
 
 namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        List<string> _stocks = new List<string>(); 
+        List<Stock> _stocks = new List<Stock>(); 
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void TickerKeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == '\r')
-            {
-                AddStockToList();
-            }
-        }
-
-        private void AddStockToList()
-        {
-            string ticker = _textBoxTicker.Text.TrimEnd('\n').ToUpper();
-            _stocks.Add(new Stock(ticker).Ticker);
-            RefreshValues(null, null);
-            _textBoxTicker.Text = String.Empty;
-        }
-
         private void RefreshValues(object sender, EventArgs e)
         {
             _listViewStocks.Items.Clear();
 
-            foreach (string stock in _stocks)
+            foreach (Stock stock in _stocks)
             {
-                string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}", stock);
+                string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}", stock.Ticker);
 
                 WebClient webClient = new WebClient();
                 string result = webClient.DownloadString(url);
@@ -47,9 +33,10 @@ namespace StockTracker
                     string priceString = pricePlus.Substring(0, pricePlus.IndexOf(","));
                     double price = Double.Parse(priceString);
 
-                    var listViewItem = new ListViewItem(stock);
+                    var listViewItem = new ListViewItem(stock.Ticker);
                     listViewItem.SubItems.Add(priceString);
-                    listViewItem.SubItems.Add("b");
+                    listViewItem.SubItems.Add(stock.Shares.ToString());
+                    listViewItem.SubItems.Add((stock.Shares * price).ToString());
                     _listViewStocks.Items.Add(listViewItem);
                 }
             }
@@ -57,7 +44,13 @@ namespace StockTracker
 
         private void AddTicker(object sender, EventArgs e)
         {
-            AddStockToList();
+            string ticker = _textBoxTicker.Text.TrimEnd('\n').ToUpper();
+            double shares = Double.Parse(_textBoxShares.Text);
+
+            _stocks.Add(new Stock(ticker, shares));
+            RefreshValues(null, null);
+            _textBoxTicker.Text = String.Empty;
+            _textBoxShares.Text = String.Empty;
         }
     }
 }

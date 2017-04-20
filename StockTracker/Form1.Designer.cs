@@ -99,7 +99,6 @@
             this._textBoxTicker.Name = "_textBoxTicker";
             this._textBoxTicker.Size = new System.Drawing.Size(100, 22);
             this._textBoxTicker.TabIndex = 4;
-            this._textBoxTicker.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TickerKeyPress);
             // 
             // _buttonAddTicker
             // 
