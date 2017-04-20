@@ -23,10 +23,36 @@ namespace StockTracker
         {
             if (e.KeyChar == '\r')
             {
-                string ticker = _textBoxTicker.Text.TrimEnd('\n');
-                _stocks.Add(ticker);
+                AddStockToList();
             }
         }
 
+        private void AddStockToList()
+        {
+            string ticker = _textBoxTicker.Text.TrimEnd('\n');
+            _stocks.Add(ticker);
+            RefreshValues(null, null);
+        }
+
+        private void RefreshValues(object sender, EventArgs e)
+        {
+            _listViewStocks.Items.Clear();
+
+            foreach (string stock in _stocks)
+            {
+                //http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=AAPL
+
+
+                var listViewItem = new ListViewItem(stock);
+                listViewItem.SubItems.Add("a");
+                listViewItem.SubItems.Add("b");
+                _listViewStocks.Items.Add(listViewItem);
+            }
+        }
+
+        private void AddTicker(object sender, EventArgs e)
+        {
+            AddStockToList();
+        }
     }
 }
