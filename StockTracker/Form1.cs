@@ -20,6 +20,7 @@ namespace StockTracker
         {
             _listViewStocks.Items.Clear();
 
+            double total = 0;
             foreach (Stock stock in _stocks)
             {
                 string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}", stock.Ticker);
@@ -38,8 +39,22 @@ namespace StockTracker
                     listViewItem.SubItems.Add(stock.Shares.ToString());
                     listViewItem.SubItems.Add((stock.Shares * price).ToString());
                     _listViewStocks.Items.Add(listViewItem);
+
+                    total += stock.Shares * price;
                 }
             }
+
+            var listViewItemLine = new ListViewItem("------");
+            listViewItemLine.SubItems.Add("-");
+            listViewItemLine.SubItems.Add("-");
+            listViewItemLine.SubItems.Add("-");
+            _listViewStocks.Items.Add(listViewItemLine);
+
+            var listViewItemTotal = new ListViewItem("Total");
+            listViewItemTotal.SubItems.Add("-");
+            listViewItemTotal.SubItems.Add("-");
+            listViewItemTotal.SubItems.Add(total.ToString());
+            _listViewStocks.Items.Add(listViewItemTotal);
         }
 
         private void AddTicker(object sender, EventArgs e)
