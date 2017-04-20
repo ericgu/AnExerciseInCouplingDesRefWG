@@ -24,7 +24,7 @@ namespace StockTracker
 
         private void AddStockToList()
         {
-            string ticker = _textBoxTicker.Text.TrimEnd('\n');
+            string ticker = _textBoxTicker.Text.TrimEnd('\n').ToUpper();
             _stocks.Add(ticker);
             RefreshValues(null, null);
             _textBoxTicker.Text = String.Empty;
@@ -40,15 +40,18 @@ namespace StockTracker
 
                 WebClient webClient = new WebClient();
                 string result = webClient.DownloadString(url);
-                string lastPrice = result.Substring(result.IndexOf("LastPrice"));
-                string pricePlus = lastPrice.Substring(lastPrice.IndexOf(":") + 1);
-                string priceString = pricePlus.Substring(0, pricePlus.IndexOf(","));
-                double price = Double.Parse(priceString);
+                if (!result.Contains("No symbol matches found"))
+                {
+                    string lastPrice = result.Substring(result.IndexOf("LastPrice"));
+                    string pricePlus = lastPrice.Substring(lastPrice.IndexOf(":") + 1);
+                    string priceString = pricePlus.Substring(0, pricePlus.IndexOf(","));
+                    double price = Double.Parse(priceString);
 
-                var listViewItem = new ListViewItem(stock);
-                listViewItem.SubItems.Add(priceString);
-                listViewItem.SubItems.Add("b");
-                _listViewStocks.Items.Add(listViewItem);
+                    var listViewItem = new ListViewItem(stock);
+                    listViewItem.SubItems.Add(priceString);
+                    listViewItem.SubItems.Add("b");
+                    _listViewStocks.Items.Add(listViewItem);
+                }
             }
         }
 
