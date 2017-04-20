@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net;
 using System.Windows.Forms;
 
 namespace StockTracker
@@ -32,6 +27,7 @@ namespace StockTracker
             string ticker = _textBoxTicker.Text.TrimEnd('\n');
             _stocks.Add(ticker);
             RefreshValues(null, null);
+            _textBoxTicker.Text = String.Empty;
         }
 
         private void RefreshValues(object sender, EventArgs e)
@@ -40,11 +36,17 @@ namespace StockTracker
 
             foreach (string stock in _stocks)
             {
-                //http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol=AAPL
+                string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}", stock);
 
+                WebClient webClient = new WebClient();
+                string result = webClient.DownloadString(url);
+                string lastPrice = result.Substring(result.IndexOf("LastPrice"));
+                string pricePlus = lastPrice.Substring(lastPrice.IndexOf(":") + 1);
+                string priceString = pricePlus.Substring(0, pricePlus.IndexOf(","));
+                double price = Double.Parse(priceString);
 
                 var listViewItem = new ListViewItem(stock);
-                listViewItem.SubItems.Add("a");
+                listViewItem.SubItems.Add(priceString);
                 listViewItem.SubItems.Add("b");
                 _listViewStocks.Items.Add(listViewItem);
             }
