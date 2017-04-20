@@ -25,7 +25,7 @@ namespace StockTracker
         private void AddStockToList()
         {
             string ticker = _textBoxTicker.Text.TrimEnd('\n').ToUpper();
-            _stocks.Add(ticker);
+            _stocks.Add(new Stock(ticker).Ticker);
             RefreshValues(null, null);
             _textBoxTicker.Text = String.Empty;
         }
