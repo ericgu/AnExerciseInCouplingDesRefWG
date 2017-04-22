@@ -11,7 +11,7 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        List<Stock> _stocks; 
+        readonly List<Stock> _stocks; 
 
         public Form1()
         {
@@ -105,6 +105,16 @@ namespace StockTracker
             }
 
             return new List<Stock>();
-        } 
+        }
+
+        private void DeleteStock(object sender, EventArgs e)
+        {
+            int index = _listViewStocks.SelectedIndices[0];
+            if (index != -1)
+            {
+                _stocks.RemoveAt(index);
+                RefreshValues(null, null);
+            }
+        }
     }
 }

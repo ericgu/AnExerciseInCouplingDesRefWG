@@ -31,6 +31,8 @@
             this._listViewStocks = new System.Windows.Forms.ListView();
             this.Ticker = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Quote = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Shares = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.buttonRefresh = new System.Windows.Forms.Button();
@@ -38,8 +40,7 @@
             this._buttonAddTicker = new System.Windows.Forms.Button();
             this._textBoxShares = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.Shares = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Value = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this._buttonDelete = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // _listViewStocks
@@ -65,6 +66,16 @@
             // 
             this.Quote.Text = "Quote";
             // 
+            // Shares
+            // 
+            this.Shares.Text = "Shares";
+            // 
+            // Value
+            // 
+            this.Value.Text = "Value";
+            this.Value.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.Value.Width = 200;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -88,7 +99,7 @@
             this.buttonRefresh.Location = new System.Drawing.Point(798, 138);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(75, 23);
-            this.buttonRefresh.TabIndex = 3;
+            this.buttonRefresh.TabIndex = 4;
             this.buttonRefresh.Text = "Refresh";
             this.buttonRefresh.UseVisualStyleBackColor = true;
             this.buttonRefresh.Click += new System.EventHandler(this.RefreshValues);
@@ -98,14 +109,14 @@
             this._textBoxTicker.Location = new System.Drawing.Point(107, 22);
             this._textBoxTicker.Name = "_textBoxTicker";
             this._textBoxTicker.Size = new System.Drawing.Size(100, 22);
-            this._textBoxTicker.TabIndex = 4;
+            this._textBoxTicker.TabIndex = 1;
             // 
             // _buttonAddTicker
             // 
             this._buttonAddTicker.Location = new System.Drawing.Point(241, 53);
             this._buttonAddTicker.Name = "_buttonAddTicker";
             this._buttonAddTicker.Size = new System.Drawing.Size(75, 23);
-            this._buttonAddTicker.TabIndex = 5;
+            this._buttonAddTicker.TabIndex = 3;
             this._buttonAddTicker.Text = "Add";
             this._buttonAddTicker.UseVisualStyleBackColor = true;
             this._buttonAddTicker.Click += new System.EventHandler(this.AddTicker);
@@ -115,7 +126,7 @@
             this._textBoxShares.Location = new System.Drawing.Point(107, 56);
             this._textBoxShares.Name = "_textBoxShares";
             this._textBoxShares.Size = new System.Drawing.Size(100, 22);
-            this._textBoxShares.TabIndex = 7;
+            this._textBoxShares.TabIndex = 2;
             // 
             // label3
             // 
@@ -126,19 +137,22 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Enter Shares:";
             // 
-            // Shares
+            // _buttonDelete
             // 
-            this.Shares.Text = "Shares";
-            // 
-            // Value
-            // 
-            this.Value.Text = "Value";
+            this._buttonDelete.Location = new System.Drawing.Point(798, 197);
+            this._buttonDelete.Name = "_buttonDelete";
+            this._buttonDelete.Size = new System.Drawing.Size(75, 23);
+            this._buttonDelete.TabIndex = 5;
+            this._buttonDelete.Text = "Delete";
+            this._buttonDelete.UseVisualStyleBackColor = true;
+            this._buttonDelete.Click += new System.EventHandler(this.DeleteStock);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1075, 451);
+            this.Controls.Add(this._buttonDelete);
             this.Controls.Add(this._textBoxShares);
             this.Controls.Add(this.label3);
             this.Controls.Add(this._buttonAddTicker);
@@ -168,6 +182,7 @@
         private System.Windows.Forms.ColumnHeader Value;
         private System.Windows.Forms.TextBox _textBoxShares;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button _buttonDelete;
     }
 }
 
