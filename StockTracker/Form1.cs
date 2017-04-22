@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
@@ -9,11 +11,14 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        List<Stock> _stocks = new List<Stock>(); 
+        List<Stock> _stocks; 
 
         public Form1()
         {
             InitializeComponent();
+
+            _stocks = LoadStocks();
+            RefreshValues(null, null);
         }
 
         private void RefreshValues(object sender, EventArgs e)
@@ -72,7 +77,34 @@ namespace StockTracker
 
         private void SaveStocks()
         {
-            throw new NotImplementedException();
+            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            string filename = Path.Combine(folderPath, "stocks.dat");
+
+            var contents = String.Join(",", _stocks.Select(stock => stock.ToString()));
+
+            File.WriteAllText(filename, contents);
         }
+
+        private List<Stock> LoadStocks()
+        {
+            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            string filename = Path.Combine(folderPath, "stocks.dat");
+
+            if (File.Exists(filename))
+            {
+
+                var contents = File.ReadAllText(filename);
+
+                return contents.Split(',')
+                    .Select(s =>
+                        new Stock(s.Split(':').First(),
+                            Double.Parse(s.Split(':').Skip(1).First())))
+                    .ToList();
+            }
+
+            return new List<Stock>();
+        } 
     }
 }
