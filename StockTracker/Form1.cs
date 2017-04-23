@@ -11,7 +11,7 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        readonly List<Stock> _stocks; 
+        readonly List<Stock> _stocks;
 
         public Form1()
         {
@@ -26,9 +26,11 @@ namespace StockTracker
             _listViewStocks.Items.Clear();
 
             double total = 0;
+            double gain = 0;
             foreach (Stock stock in _stocks)
             {
-                string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}", stock.Ticker);
+                string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}",
+                    stock.Ticker);
 
                 WebClient webClient = new WebClient();
                 string result = webClient.DownloadString(url);
@@ -42,10 +44,12 @@ namespace StockTracker
                     var listViewItem = new ListViewItem(stock.Ticker);
                     listViewItem.SubItems.Add(priceString);
                     listViewItem.SubItems.Add(stock.Shares.ToString());
-                    listViewItem.SubItems.Add((stock.Shares * price).ToString());
+                    listViewItem.SubItems.Add((stock.Shares*price).ToString());
+                    listViewItem.SubItems.Add((stock.Shares * (price - stock.PurchasePrice)).ToString());
                     _listViewStocks.Items.Add(listViewItem);
 
-                    total += stock.Shares * price;
+                    total += stock.Shares*price;
+                    gain += stock.Shares*(price - stock.PurchasePrice);
                 }
             }
 
@@ -59,6 +63,7 @@ namespace StockTracker
             listViewItemTotal.SubItems.Add("-");
             listViewItemTotal.SubItems.Add("-");
             listViewItemTotal.SubItems.Add(total.ToString());
+            listViewItemTotal.SubItems.Add(gain.ToString());
             _listViewStocks.Items.Add(listViewItemTotal);
         }
 
@@ -66,11 +71,15 @@ namespace StockTracker
         {
             string ticker = _textBoxTicker.Text.TrimEnd('\n').ToUpper();
             double shares = Double.Parse(_textBoxShares.Text);
+            double purchasePrice = Double.Parse(_textBoxPurchasePrice.Text);
+            string purchaseDate = _textBoxPurchaseDate.Text;
 
-            _stocks.Add(new Stock(ticker, shares));
+            _stocks.Add(new Stock(ticker, shares, purchasePrice, purchaseDate));
             RefreshValues(null, null);
             _textBoxTicker.Text = String.Empty;
             _textBoxShares.Text = String.Empty;
+            _textBoxPurchaseDate.Text = String.Empty;
+            _textBoxPurchasePrice.Text = String.Empty;
 
             SaveStocks();
         }
@@ -94,14 +103,23 @@ namespace StockTracker
 
             if (File.Exists(filename))
             {
-
                 var contents = File.ReadAllText(filename);
 
-                return contents.Split(',')
-                    .Select(s =>
-                        new Stock(s.Split(':').First(),
-                            Double.Parse(s.Split(':').Skip(1).First())))
-                    .ToList();
+                try
+                {
+
+                    return contents.Split(',')
+                        .Select(s =>
+                            new Stock(s.Split(':').First(),
+                                Double.Parse(s.Split(':').Skip(1).First()),
+                                Double.Parse(s.Split(':').Skip(2).First()),
+                                s.Split(':').Skip(3).First()))
+                        .ToList();
+                }
+                catch (Exception)
+                {
+                    
+                }
             }
 
             return new List<Stock>();
@@ -115,6 +133,20 @@ namespace StockTracker
                 _stocks.RemoveAt(index);
                 RefreshValues(null, null);
             }
+        }
+
+        private void ClearAllData(object sender, EventArgs e)
+        {
+            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            string filename = Path.Combine(folderPath, "stocks.dat");
+
+            if (File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
+
+            LoadStocks();
         }
     }
 }
