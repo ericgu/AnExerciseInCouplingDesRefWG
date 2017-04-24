@@ -7,6 +7,10 @@ using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
 // ReSharper disable StringIndexOfIsCultureSpecific.1
 
+// Design discussion comments:
+// Add your comment here, in this format:
+// <alias>: comment
+
 namespace StockTracker
 {
     public partial class Form1 : Form
@@ -107,7 +111,6 @@ namespace StockTracker
 
                 try
                 {
-
                     return contents.Split(',')
                         .Select(s =>
                             new Stock(s.Split(':').First(),
@@ -116,6 +119,7 @@ namespace StockTracker
                                 s.Split(':').Skip(3).First()))
                         .ToList();
                 }
+                    // ReSharper disable once EmptyGeneralCatchClause
                 catch (Exception)
                 {
                     
