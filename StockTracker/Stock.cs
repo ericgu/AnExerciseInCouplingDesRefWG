@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 
 namespace StockTracker
 {
+    // Stores stocks
     public class Stock
     {
         public Stock(string ticker, double shares, double purchasePrice, string purchaseDate)
