@@ -1,6 +1,3 @@
-// Design discussion comments:
-// Add your comment here, in this format:
-// <alias>: comment
 
 namespace StockTracker
 {
