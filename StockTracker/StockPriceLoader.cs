@@ -3,7 +3,7 @@ using System.Net;
 
 internal class StockPriceLoader
 {
-    public static double Load(string url, StockPriceLoader that)
+    public double Load(string url)
     {
         double price = 0;
         WebClient webClient = new WebClient();
