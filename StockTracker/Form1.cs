@@ -36,16 +36,9 @@ namespace StockTracker
                 string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}",
                     stock.Ticker);
 
-                WebClient webClient = new WebClient();
-                string result = webClient.DownloadString(url);
-                if (!result.Contains("No symbol matches found"))
-                {
-                    string lastPrice = result.Substring(result.IndexOf("LastPrice"));
-                    string pricePlus = lastPrice.Substring(lastPrice.IndexOf(":") + 1);
-                    string priceString = pricePlus.Substring(0, pricePlus.IndexOf(","));
-                    double price = Double.Parse(priceString);
+                var price = Load(url);
 
-                    var listViewItem = new ListViewItem(stock.Ticker);
+                var listViewItem = new ListViewItem(stock.Ticker);
                     listViewItem.SubItems.Add(priceString);
                     listViewItem.SubItems.Add(stock.Shares.ToString());
                     listViewItem.SubItems.Add((stock.Shares*price).ToString());
@@ -54,7 +47,6 @@ namespace StockTracker
 
                     total += stock.Shares*price;
                     gain += stock.Shares*(price - stock.PurchasePrice);
-                }
             }
 
             var listViewItemLine = new ListViewItem("------");
@@ -69,6 +61,21 @@ namespace StockTracker
             listViewItemTotal.SubItems.Add(total.ToString());
             listViewItemTotal.SubItems.Add(gain.ToString());
             _listViewStocks.Items.Add(listViewItemTotal);
+        }
+
+        private static double Load(string url)
+        {
+            double price = 0;
+            WebClient webClient = new WebClient();
+            string result = webClient.DownloadString(url);
+            if (!result.Contains("No symbol matches found"))
+            {
+                string lastPrice = result.Substring(result.IndexOf("LastPrice"));
+                string pricePlus = lastPrice.Substring(lastPrice.IndexOf(":") + 1);
+                string priceString = pricePlus.Substring(0, pricePlus.IndexOf(","));
+                price = Double.Parse(priceString);
+            }
+            return price;
         }
 
         private void AddTicker(object sender, EventArgs e)
