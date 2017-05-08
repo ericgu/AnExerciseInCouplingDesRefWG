@@ -20,7 +20,7 @@ namespace StockTracker
             return price;
         }
 
-        public static double Load2(Stock stock)
+        public static double Load2(Stock stock, StockPriceLoader that)
         {
             string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}",
                 stock.Ticker);
