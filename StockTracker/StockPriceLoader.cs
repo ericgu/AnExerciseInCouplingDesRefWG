@@ -19,5 +19,14 @@ namespace StockTracker
             }
             return price;
         }
+
+        public static double Load2(Stock stock)
+        {
+            string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}",
+                stock.Ticker);
+
+            var price = new StockPriceLoader().Load(url);
+            return price;
+        }
     }
 }
