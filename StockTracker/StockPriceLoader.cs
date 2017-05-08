@@ -5,10 +5,10 @@ namespace StockTracker
 {
     internal class StockPriceLoader
     {
-        public double Load(Stock stock)
+        public double Load(Stock stock, string stockTicker)
         {
             string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}",
-                stock.Ticker);
+                stockTicker);
 
             double price = 0;
             WebClient webClient = new WebClient();
