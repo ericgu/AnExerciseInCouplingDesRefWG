@@ -5,9 +5,12 @@ namespace StockTracker
 {
     internal class StockPriceLoader
     {
-        public double Load(string url)
+        public double Load2(Stock stock)
         {
-            double price = 0;
+            string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}",
+                stock.Ticker);
+
+            double price1 = 0;
             WebClient webClient = new WebClient();
             string result = webClient.DownloadString(url);
             if (!result.Contains("No symbol matches found"))
@@ -15,17 +18,9 @@ namespace StockTracker
                 string lastPrice = result.Substring(result.IndexOf("LastPrice"));
                 string pricePlus = lastPrice.Substring(lastPrice.IndexOf(":") + 1);
                 string priceString = pricePlus.Substring(0, pricePlus.IndexOf(","));
-                price = Double.Parse(priceString);
+                price1 = Double.Parse(priceString);
             }
-            return price;
-        }
-
-        public double Load2(Stock stock)
-        {
-            string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}",
-                stock.Ticker);
-
-            var price = new StockPriceLoader().Load(url);
+            var price = price1;
             return price;
         }
     }
