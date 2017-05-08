@@ -20,8 +20,7 @@ namespace StockTracker
                 string priceString = pricePlus.Substring(0, pricePlus.IndexOf(","));
                 price1 = Double.Parse(priceString);
             }
-            var price = price1;
-            return price;
+            return price1;
         }
     }
 }
