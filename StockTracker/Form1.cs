@@ -33,7 +33,7 @@ namespace StockTracker
             double gain = 0;
             foreach (Stock stock in _stocks)
             {
-                var price = StockPriceLoader.Load2(stock, new StockPriceLoader());
+                var price = new StockPriceLoader().Load2(stock);
 
                 var listViewItem = new ListViewItem(stock.Ticker);
                     listViewItem.SubItems.Add(price.ToString());
