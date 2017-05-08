@@ -1,9 +1,9 @@
 using System;
 using System.Net;
 
-static internal class StockPriceLoader
+internal class StockPriceLoader
 {
-    public static double Load(string url)
+    public static double Load(string url, StockPriceLoader that)
     {
         double price = 0;
         WebClient webClient = new WebClient();

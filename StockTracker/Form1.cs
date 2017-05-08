@@ -36,7 +36,7 @@ namespace StockTracker
                 string url = String.Format("http://dev.markitondemand.com/MODApis/Api/v2/Quote/jsonp?symbol={0}",
                     stock.Ticker);
 
-                var price = StockPriceLoader.Load(url);
+                var price = StockPriceLoader.Load(url, new StockPriceLoader());
 
                 var listViewItem = new ListViewItem(stock.Ticker);
                     listViewItem.SubItems.Add(priceString);
