@@ -16,12 +16,15 @@ namespace StockTracker
     public partial class Form1 : Form
     {
         readonly List<Stock> _stocks;
+        readonly StocksFileCache _stocksCache;
 
         public Form1()
         {
             InitializeComponent();
 
+            _stocksCache = new StocksFileCache();
             _stocks = LoadStocks();
+
             RefreshValues(null, null);
         }
 
@@ -79,43 +82,12 @@ namespace StockTracker
 
         private void SaveStocks()
         {
-            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            string filename = Path.Combine(folderPath, "stocks.dat");
-
-            var contents = String.Join(",", _stocks.Select(stock => stock.ToString()));
-
-            File.WriteAllText(filename, contents);
+            _stocksCache.SaveStocks(_stocks);
         }
 
         private List<Stock> LoadStocks()
         {
-            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            string filename = Path.Combine(folderPath, "stocks.dat");
-
-            if (File.Exists(filename))
-            {
-                var contents = File.ReadAllText(filename);
-
-                try
-                {
-                    return contents.Split(',')
-                        .Select(s =>
-                            new Stock(s.Split(':').First(),
-                                Double.Parse(s.Split(':').Skip(1).First()),
-                                Double.Parse(s.Split(':').Skip(2).First()),
-                                s.Split(':').Skip(3).First()))
-                        .ToList();
-                }
-                    // ReSharper disable once EmptyGeneralCatchClause
-                catch (Exception)
-                {
-                    
-                }
-            }
-
-            return new List<Stock>();
+            return _stocksCache.LoadStocks();
         }
 
         private void DeleteStock(object sender, EventArgs e)
@@ -130,16 +102,7 @@ namespace StockTracker
 
         private void ClearAllData(object sender, EventArgs e)
         {
-            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            string filename = Path.Combine(folderPath, "stocks.dat");
-
-            if (File.Exists(filename))
-            {
-                File.Delete(filename);
-            }
-
-            LoadStocks();
+            _stocksCache.ClearAllData();
         }
     }
 }
