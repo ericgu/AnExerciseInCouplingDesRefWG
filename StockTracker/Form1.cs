@@ -35,7 +35,7 @@ namespace StockTracker
 
             double total = 0;
             double gain = 0;
-            foreach (Stock stock in _stockModel.Stocks)
+            foreach (Stock stock in _stockModel.EnumerateStocks())
             {
                 var price = new StockPriceLoader().Load(stock.Ticker);
 
@@ -71,7 +71,7 @@ namespace StockTracker
             double purchasePrice = Double.Parse(_textBoxPurchasePrice.Text);
             string purchaseDate = _textBoxPurchaseDate.Text;
 
-            _stockModel.Stocks.Add(new Stock(ticker, shares, purchasePrice, purchaseDate));
+            _stockModel.Add(ticker, shares, purchasePrice, purchaseDate);
             RefreshValues(null, null);
             _textBoxTicker.Text = String.Empty;
             _textBoxShares.Text = String.Empty;
@@ -96,7 +96,7 @@ namespace StockTracker
             int index = _listViewStocks.SelectedIndices[0];
             if (index != -1)
             {
-                _stockModel.Stocks.RemoveAt(index);
+                _stockModel.RemoveAt(index);
                 RefreshValues(null, null);
             }
         }
