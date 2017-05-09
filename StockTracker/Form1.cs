@@ -102,7 +102,7 @@ namespace StockTracker
 
         private void ClearAllData(object sender, EventArgs e)
         {
-            _stocksCache.ClearAllData();
+            _stocksCache.Refresh();
         }
     }
 }
