@@ -9,9 +9,7 @@ namespace StockTracker
     {
         public void SaveStocks(List<Stock> stocks)
         {
-            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            string filename = Path.Combine(folderPath, "stocks.dat");
+            string filename = GetCacheFilePath();
 
             var contents = String.Join(",", stocks.Select(stock => stock.ToString()));
 
@@ -20,9 +18,7 @@ namespace StockTracker
 
         public List<Stock> LoadStocks()
         {
-            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            string filename = Path.Combine(folderPath, "stocks.dat");
+            string filename = GetCacheFilePath();
 
             if (File.Exists(filename))
             {
@@ -50,9 +46,7 @@ namespace StockTracker
 
         public void ClearAllData()
         {
-            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-            string filename = Path.Combine(folderPath, "stocks.dat");
+            string filename = GetCacheFilePath();
 
             if (File.Exists(filename))
             {
@@ -60,6 +54,13 @@ namespace StockTracker
             }
 
             LoadStocks();
+        }
+
+        private string GetCacheFilePath()
+        {
+            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string filename = Path.Combine(folderPath, "stocks.dat");
+            return filename;
         }
     }
 }
