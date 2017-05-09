@@ -7,7 +7,7 @@ namespace StockTracker
 {
     internal class StocksFileCache : StocksLocalCache
     {
-        public void SaveStocks(List<Stock> stocks)
+        public void SaveStocks(IEnumerable<Stock> stocks)
         {
             string filename = GetCacheFilePath();
 
