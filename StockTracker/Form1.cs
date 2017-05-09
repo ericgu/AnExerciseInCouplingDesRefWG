@@ -16,7 +16,7 @@ namespace StockTracker
     public partial class Form1 : Form
     {
         readonly List<Stock> _stocks;
-        readonly StocksFileCache _stocksCache;
+        readonly StocksLocalCache _stocksCache;
 
         public Form1()
         {

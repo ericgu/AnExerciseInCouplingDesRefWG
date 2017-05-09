@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StockTracker
 {
-    internal class StocksFileCache
+    internal class StocksFileCache : StocksLocalCache
     {
         public void SaveStocks(List<Stock> stocks)
         {
