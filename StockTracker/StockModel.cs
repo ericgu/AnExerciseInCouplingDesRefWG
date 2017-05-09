@@ -4,26 +4,26 @@ namespace StockTracker
 {
     public class StockModel
     {
+        private readonly List<Stock> _stocks;
+
         public StockModel(List<Stock> stocks)
         {
-            Stocks = stocks;
+            _stocks = stocks;
         }
-
-        public List<Stock> Stocks { get; }
 
         public void Add(string ticker, double shares, double purchasePrice, string purchaseDate)
         {
-            this.Stocks.Add(new Stock(ticker, shares, purchasePrice, purchaseDate));
+            this._stocks.Add(new Stock(ticker, shares, purchasePrice, purchaseDate));
         }
 
         public void RemoveAt(int index)
         {
-            this.Stocks.RemoveAt(index);
+            this._stocks.RemoveAt(index);
         }
 
         public IEnumerable<Stock> EnumerateStocks()
         {
-            return this.Stocks;
+            return this._stocks;
         }
     }
 }
