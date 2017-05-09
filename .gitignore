@@ -16,3 +16,5 @@
 /StockTracker/StockTracker.v3.ncrunchsolution.user
 /StockTracker/obj/Debug/StockTracker.csprojResolveAssemblyReference.cache
 /StockTracker/obj/Debug/StockTracker.csproj.GenerateResource.Cache
+/StockTracker/bin/Debug
+/StockTracker/obj/Debug

@@ -6,6 +6,6 @@ namespace StockTracker
     {
         List<Stock> LoadStocks();
         void Refresh();
-        void SaveStocks(List<Stock> stocks);
+        void SaveStocks(IEnumerable<Stock> stocks);
     }
 }
