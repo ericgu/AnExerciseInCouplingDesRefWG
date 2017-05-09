@@ -83,7 +83,7 @@ namespace StockTracker
 
         private void SaveStocks()
         {
-            _stocksCache.SaveStocks(_stockModel.Stocks);
+            _stocksCache.SaveStocks(_stockModel.EnumerateStocks());
         }
 
         private List<Stock> LoadStocks()
