@@ -15,16 +15,17 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        readonly List<Stock> _stocks;
         readonly StocksLocalCache _stocksCache;
+        private readonly StockModel _stockModel;
 
         public Form1()
         {
             InitializeComponent();
 
             _stocksCache = new StocksFileCache();
-            _stocks = LoadStocks();
+            var stocks = LoadStocks();
 
+            _stockModel = new StockModel(stocks);
             RefreshValues(null, null);
         }
 
@@ -34,7 +35,7 @@ namespace StockTracker
 
             double total = 0;
             double gain = 0;
-            foreach (Stock stock in _stocks)
+            foreach (Stock stock in _stockModel.Stocks)
             {
                 var price = new StockPriceLoader().Load(stock.Ticker);
 
@@ -70,7 +71,7 @@ namespace StockTracker
             double purchasePrice = Double.Parse(_textBoxPurchasePrice.Text);
             string purchaseDate = _textBoxPurchaseDate.Text;
 
-            _stocks.Add(new Stock(ticker, shares, purchasePrice, purchaseDate));
+            _stockModel.Stocks.Add(new Stock(ticker, shares, purchasePrice, purchaseDate));
             RefreshValues(null, null);
             _textBoxTicker.Text = String.Empty;
             _textBoxShares.Text = String.Empty;
@@ -82,7 +83,7 @@ namespace StockTracker
 
         private void SaveStocks()
         {
-            _stocksCache.SaveStocks(_stocks);
+            _stocksCache.SaveStocks(_stockModel.Stocks);
         }
 
         private List<Stock> LoadStocks()
@@ -95,7 +96,7 @@ namespace StockTracker
             int index = _listViewStocks.SelectedIndices[0];
             if (index != -1)
             {
-                _stocks.RemoveAt(index);
+                _stockModel.Stocks.RemoveAt(index);
                 RefreshValues(null, null);
             }
         }

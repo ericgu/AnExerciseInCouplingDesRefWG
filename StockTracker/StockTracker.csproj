@@ -55,6 +55,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stock.cs" />
+    <Compile Include="StockModel.cs" />
     <Compile Include="StockPriceLoader.cs" />
     <Compile Include="StocksFileCache.cs" />
     <Compile Include="StocksLocalCache.cs" />
