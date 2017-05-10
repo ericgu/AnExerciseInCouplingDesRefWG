@@ -49,10 +49,8 @@ namespace StockTracker
                     gain += stock.Shares*(price - stock.PurchasePrice);
             }
 
-            var listViewItemLine = new ListViewItem("------");
-            listViewItemLine.SubItems.Add("-");
-            listViewItemLine.SubItems.Add("-");
-            listViewItemLine.SubItems.Add("-");
+
+            var listViewItemLine = CreateListViewItem2();
             _listViewStocks.Items.Add(listViewItemLine);
 
             var listViewItemTotal = new ListViewItem("Total");
@@ -61,6 +59,15 @@ namespace StockTracker
             listViewItemTotal.SubItems.Add(total.ToString());
             listViewItemTotal.SubItems.Add(gain.ToString());
             _listViewStocks.Items.Add(listViewItemTotal);
+        }
+
+        private static ListViewItem CreateListViewItem2()
+        {
+            var listViewItemLine = new ListViewItem("------");
+            listViewItemLine.SubItems.Add("-");
+            listViewItemLine.SubItems.Add("-");
+            listViewItemLine.SubItems.Add("-");
+            return listViewItemLine;
         }
 
         private static ListViewItem CreateListViewItem(params object[] parameters)
