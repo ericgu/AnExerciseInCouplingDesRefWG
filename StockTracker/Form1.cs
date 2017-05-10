@@ -42,7 +42,7 @@ namespace StockTracker
             {
                 var price = new StockPriceLoader().Load(stock.Ticker);
 
-                var listViewItem = CreateListViewItem(stock, price, stock.Ticker, stock.Shares, (stock.Shares*price), (stock.Shares*(price - stock.PurchasePrice)));
+                var listViewItem = CreateListViewItem(stock, stock.Ticker, price, stock.Shares, (stock.Shares*price), (stock.Shares*(price - stock.PurchasePrice)));
                 _listViewStocks.Items.Add(listViewItem);
 
                     total += stock.Shares*price;
@@ -63,7 +63,7 @@ namespace StockTracker
             _listViewStocks.Items.Add(listViewItemTotal);
         }
 
-        private static ListViewItem CreateListViewItem(Stock stock, double param2, string param1, double param3, double param4, double param5)
+        private static ListViewItem CreateListViewItem(Stock stock, string param1, double param2, double param3, double param4, double param5)
         {
             var listViewItem = new ListViewItem(param1);
             listViewItem.SubItems.Add(param2.ToString());
