@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
 // ReSharper disable StringIndexOfIsCultureSpecific.1
@@ -45,12 +42,8 @@ namespace StockTracker
             {
                 var price = new StockPriceLoader().Load(stock.Ticker);
 
-                var listViewItem = new ListViewItem(stock.Ticker);
-                    listViewItem.SubItems.Add(price.ToString());
-                    listViewItem.SubItems.Add(stock.Shares.ToString());
-                    listViewItem.SubItems.Add((stock.Shares*price).ToString());
-                    listViewItem.SubItems.Add((stock.Shares * (price - stock.PurchasePrice)).ToString());
-                    _listViewStocks.Items.Add(listViewItem);
+                var listViewItem = CreateListViewItem(stock, price);
+                _listViewStocks.Items.Add(listViewItem);
 
                     total += stock.Shares*price;
                     gain += stock.Shares*(price - stock.PurchasePrice);
@@ -68,6 +61,16 @@ namespace StockTracker
             listViewItemTotal.SubItems.Add(total.ToString());
             listViewItemTotal.SubItems.Add(gain.ToString());
             _listViewStocks.Items.Add(listViewItemTotal);
+        }
+
+        private static ListViewItem CreateListViewItem(Stock stock, double price)
+        {
+            var listViewItem = new ListViewItem(stock.Ticker);
+            listViewItem.SubItems.Add(price.ToString());
+            listViewItem.SubItems.Add(stock.Shares.ToString());
+            listViewItem.SubItems.Add((stock.Shares*price).ToString());
+            listViewItem.SubItems.Add((stock.Shares*(price - stock.PurchasePrice)).ToString());
+            return listViewItem;
         }
 
         private void AddTicker(object sender, EventArgs e)
