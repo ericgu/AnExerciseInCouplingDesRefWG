@@ -26,6 +26,12 @@ namespace StockTracker
             var stocks = LoadStocks();
 
             _stockModel = new StockModel(stocks);
+            _stockModel.Changed += _stockModel_Changed;
+            RefreshValues(null, null);
+        }
+
+        private void _stockModel_Changed(object sender, EventArgs e)
+        {
             RefreshValues(null, null);
         }
 
@@ -72,7 +78,6 @@ namespace StockTracker
             string purchaseDate = _textBoxPurchaseDate.Text;
 
             _stockModel.Add(ticker, shares, purchasePrice, purchaseDate);
-            RefreshValues(null, null);
             _textBoxTicker.Text = String.Empty;
             _textBoxShares.Text = String.Empty;
             _textBoxPurchaseDate.Text = String.Empty;
@@ -97,7 +102,6 @@ namespace StockTracker
             if (index != -1)
             {
                 _stockModel.RemoveAt(index);
-                RefreshValues(null, null);
             }
         }
 
