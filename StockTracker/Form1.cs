@@ -53,18 +53,8 @@ namespace StockTracker
             var listViewItemLine = CreateListViewItem("------", "-", "-", "-");
             _listViewStocks.Items.Add(listViewItemLine);
 
-            var listViewItemTotal = Create("Total", "-", "-", total, gain);
+            var listViewItemTotal = CreateListViewItem("Total", "-", "-", total, gain);
             _listViewStocks.Items.Add(listViewItemTotal);
-        }
-
-        private static ListViewItem Create(string param1, string param2, string param3, double param4, double param5)
-        {
-            var listViewItemTotal = new ListViewItem(param1);
-            listViewItemTotal.SubItems.Add(param2);
-            listViewItemTotal.SubItems.Add(param3);
-            listViewItemTotal.SubItems.Add(param4.ToString());
-            listViewItemTotal.SubItems.Add(param5.ToString());
-            return listViewItemTotal;
         }
 
         private static ListViewItem CreateListViewItem(params object[] parameters)
