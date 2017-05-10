@@ -63,13 +63,14 @@ namespace StockTracker
             _listViewStocks.Items.Add(listViewItemTotal);
         }
 
-        private static ListViewItem CreateListViewItem(string param1, double param2, double param3, double param4, double param5)
+        private static ListViewItem CreateListViewItem(params object[] parameters)
         {
-            var listViewItem = new ListViewItem(param1);
-            listViewItem.SubItems.Add(param2.ToString());
-            listViewItem.SubItems.Add(param3.ToString());
-            listViewItem.SubItems.Add(param4.ToString());
-            listViewItem.SubItems.Add(param5.ToString());
+            var listViewItem = new ListViewItem(parameters[0].ToString());
+
+            for (int i = 1; i < parameters.Length; i++)
+            {
+                listViewItem.SubItems.Add(parameters[i].ToString());
+            }
             return listViewItem;
         }
 
