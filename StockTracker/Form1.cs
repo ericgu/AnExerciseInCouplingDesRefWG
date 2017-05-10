@@ -20,15 +20,20 @@ namespace StockTracker
 
             _stockModel = new StockModel(stocks);
             _stockModel.Changed += _stockModel_Changed;
-            RefreshValues(null, null);
+            RefreshTable();
         }
 
         private void _stockModel_Changed(object sender, EventArgs e)
         {
-            RefreshValues(null, null);
+            RefreshTable();
         }
 
         private void RefreshValues(object sender, EventArgs e)
+        {
+            RefreshTable();
+        }
+
+        private void RefreshTable()
         {
             _listViewStocks.Items.Clear();
 
@@ -38,11 +43,12 @@ namespace StockTracker
             {
                 var price = new StockPriceLoader().Load(stock.Ticker);
 
-                var listViewItem = CreateListViewItem(stock.Ticker, price, stock.Shares, stock.Shares*price, stock.Shares*(price - stock.PurchasePrice));
+                var listViewItem = CreateListViewItem(stock.Ticker, price, stock.Shares, stock.Shares*price,
+                    stock.Shares*(price - stock.PurchasePrice));
                 _listViewStocks.Items.Add(listViewItem);
 
-                    total += stock.Shares*price;
-                    gain += stock.Shares*(price - stock.PurchasePrice);
+                total += stock.Shares*price;
+                gain += stock.Shares*(price - stock.PurchasePrice);
             }
 
 
