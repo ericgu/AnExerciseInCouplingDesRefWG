@@ -43,8 +43,8 @@ namespace StockTracker
             {
                 var price = new StockPriceLoader().Load(stock.Ticker);
 
-                var stockTotalPrice = GetStockTotalPrice(stock, price);
-                var stockGain = GetStockGain(stock, price);
+                var stockTotalPrice = stock.GetStockTotalPrice(price);
+                var stockGain = stock.GetStockGain(price);
                 var listViewItem = CreateListViewItem(stock.Ticker, price, stock.Shares, stockTotalPrice,
                     stockGain);
                 _listViewStocks.Items.Add(listViewItem);
@@ -59,16 +59,6 @@ namespace StockTracker
 
             var listViewItemTotal = CreateListViewItem("Total", "-", "-", total, gain);
             _listViewStocks.Items.Add(listViewItemTotal);
-        }
-
-        private static double GetStockGain(Stock stock, double price)
-        {
-            return stock.Shares*(price - stock.PurchasePrice);
-        }
-
-        private static double GetStockTotalPrice(Stock stock, double price)
-        {
-            return stock.Shares*price;
         }
 
         private static ListViewItem CreateListViewItem(params object[] parameters)
