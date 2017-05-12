@@ -4,14 +4,9 @@ namespace StockTracker
     {
         public StockValue(Stock stock, double price)
         {
-            Stock = stock;
-            Price = price;
-            Gain = Stock.Shares * (Price - Stock.PurchasePrice);
-            TotalPrice = Stock.Shares * Price;
+            Gain = stock.Shares * (price - stock.PurchasePrice);
+            TotalPrice = stock.Shares * price;
         }
-
-        private Stock Stock { get; }
-        private double Price { get; }
 
         public double Gain { get; }
 
