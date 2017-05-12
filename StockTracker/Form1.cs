@@ -8,7 +8,7 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        readonly StocksLocalCache _stocksCache;
+        readonly StocksFileCache _stocksCache;
         private readonly StockModel _stockModel;
 
         public Form1()
