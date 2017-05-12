@@ -44,7 +44,7 @@ namespace StockTracker
             return new List<Stock>();
         }
 
-        public void Refresh()
+        public void DeleteAllStocks()
         {
             string filename = GetCacheFilePath();
 
