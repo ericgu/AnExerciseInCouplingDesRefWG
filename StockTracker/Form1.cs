@@ -8,14 +8,14 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        readonly StocksFileCache _stocksCache;
+        readonly StocksFileRepository _stocksRepository;
         private readonly StockModel _stockModel;
 
         public Form1()
         {
             InitializeComponent();
 
-            _stocksCache = new StocksFileCache();
+            _stocksRepository = new StocksFileRepository();
             var stocks = LoadStocks();
 
             _stockModel = new StockModel(stocks);
@@ -90,12 +90,12 @@ namespace StockTracker
 
         private void SaveStocks()
         {
-            _stocksCache.SaveStocks(_stockModel.EnumerateStocks());
+            _stocksRepository.SaveStocks(_stockModel.EnumerateStocks());
         }
 
         private List<Stock> LoadStocks()
         {
-            return _stocksCache.LoadStocks();
+            return _stocksRepository.LoadStocks();
         }
 
         private void DeleteStock(object sender, EventArgs e)
@@ -109,7 +109,7 @@ namespace StockTracker
 
         private void ClearAllData(object sender, EventArgs e)
         {
-            _stocksCache.Refresh();
+            _stocksRepository.Refresh();
         }
     }
 }
