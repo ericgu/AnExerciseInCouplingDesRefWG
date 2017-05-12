@@ -6,19 +6,15 @@ namespace StockTracker
         {
             Stock = stock;
             Price = price;
+            Gain = Stock.Shares * (Price - Stock.PurchasePrice);
+            TotalPrice = Stock.Shares * Price;
         }
 
         private Stock Stock { get; }
         private double Price { get; }
 
-        public double GetGain()
-        {
-            return Stock.Shares * (Price - Stock.PurchasePrice);
-        }
+        public double Gain { get; }
 
-        public double GetTotalPrice()
-        {
-            return Stock.Shares * Price;
-        }
+        public double TotalPrice { get; }
     }
 }
