@@ -8,7 +8,17 @@ namespace StockTracker
             Price = price;
         }
 
-        public Stock Stock { get; private set; }
-        public double Price { get; private set; }
+        private Stock Stock { get; }
+        private double Price { get; }
+
+        public static double GetStockGain(StockValue stockValue)
+        {
+            return stockValue.Stock.Shares*(stockValue.Price - stockValue.Stock.PurchasePrice);
+        }
+
+        public static double GetStockTotalPrice(StockValue stockValue)
+        {
+            return stockValue.Stock.Shares*stockValue.Price;
+        }
     }
 }
