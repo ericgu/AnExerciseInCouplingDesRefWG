@@ -59,6 +59,7 @@
     <Compile Include="StockPriceLoader.cs" />
     <Compile Include="StocksFileCache.cs" />
     <Compile Include="StocksLocalCache.cs" />
+    <Compile Include="StockValue.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
