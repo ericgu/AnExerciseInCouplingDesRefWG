@@ -13,12 +13,12 @@ namespace StockTracker
 
         public double GetStockGain()
         {
-            return Stock.Shares*(Price - Stock.PurchasePrice);
+            return Stock.Shares * (Price - Stock.PurchasePrice);
         }
 
         public double GetStockTotalPrice()
         {
-            return Stock.Shares*Price;
+            return Stock.Shares * Price;
         }
     }
 }
