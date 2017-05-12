@@ -23,5 +23,15 @@ namespace StockTracker
         {
             return Ticker + ":" + Shares + ":" + PurchasePrice + ":" + PurchaseDate;
         }
+
+        public static double TotalStockGain(Stock stock, double currentPrice)
+        {
+            return stock.Shares * (currentPrice - stock.PurchasePrice);
+        }
+
+        public static double TotalStockValue(Stock stock, double currentPrice)
+        {
+            return stock.Shares * currentPrice;
+        }
     }
 }
