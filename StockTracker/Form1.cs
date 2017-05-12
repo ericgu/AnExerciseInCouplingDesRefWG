@@ -44,8 +44,8 @@ namespace StockTracker
                 var price = new StockPriceLoader().Load(stock.Ticker);
 
                 var stockValue = new StockValue(stock, price);
-                var stockTotalPrice = stockValue.GetStockTotalPrice();
-                var stockGain = stockValue.GetStockGain();
+                var stockTotalPrice = stockValue.GetTotalPrice();
+                var stockGain = stockValue.GetGain();
                 var listViewItem = CreateListViewItem(stock.Ticker, price, stock.Shares, stockTotalPrice,
                     stockGain);
                 _listViewStocks.Items.Add(listViewItem);
