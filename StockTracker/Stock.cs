@@ -24,14 +24,14 @@ namespace StockTracker
             return Ticker + ":" + Shares + ":" + PurchasePrice + ":" + PurchaseDate;
         }
 
-        public double GetStockGain(double price)
+        public double GetGain(double price)
         {
-            return Shares*(price - PurchasePrice);
+            return Shares * (price - PurchasePrice);
         }
 
-        public double GetStockTotalPrice(double price)
+        public double GetTotalPrice(double price)
         {
-            return Shares*price;
+            return Shares * price;
         }
     }
 }
