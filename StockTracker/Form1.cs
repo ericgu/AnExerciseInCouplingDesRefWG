@@ -19,12 +19,7 @@ namespace StockTracker
             var stocks = LoadStocks();
 
             _stockModel = new StockModel(stocks);
-            _stockModel.Changed += _stockModel_Changed;
-            RefreshTable();
-        }
-
-        private void _stockModel_Changed(object sender, EventArgs e)
-        {
+            _stockModel.Changed += (sender, e) => RefreshTable();
             RefreshTable();
         }
 
