@@ -20,6 +20,8 @@ namespace StockTracker
 
             _stockModel = new StockModel(stocks);
             _stockModel.Changed += (sender, e) => RefreshTable();
+            _stockModel.Changed += (sender, e) => SaveStocks();
+
             RefreshTable();
         }
 
@@ -79,8 +81,6 @@ namespace StockTracker
             _textBoxShares.Text = String.Empty;
             _textBoxPurchaseDate.Text = String.Empty;
             _textBoxPurchasePrice.Text = String.Empty;
-
-            SaveStocks();
         }
 
         private void SaveStocks()
