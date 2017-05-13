@@ -44,18 +44,6 @@ namespace StockTracker
             return new List<Stock>();
         }
 
-        public void DeleteAllStocks()
-        {
-            string filename = GetCacheFilePath();
-
-            if (File.Exists(filename))
-            {
-                File.Delete(filename);
-            }
-
-            LoadStocks();
-        }
-
         private string GetCacheFilePath()
         {
             var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
