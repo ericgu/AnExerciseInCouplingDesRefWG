@@ -25,6 +25,12 @@ namespace StockTracker
             OnChanged();
         }
 
+        public void RemoveAll()
+        {
+            this._stocks.Clear();
+            OnChanged();
+        }
+
         public IEnumerable<Stock> EnumerateStocks()
         {
             return this._stocks;

@@ -104,7 +104,7 @@ namespace StockTracker
 
         private void ClearAllData(object sender, EventArgs e)
         {
-            _stocksRepository.DeleteAllStocks();
+            _stockModel.RemoveAll();
         }
     }
 }
