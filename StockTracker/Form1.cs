@@ -19,12 +19,9 @@ namespace StockTracker
             var stocks = LoadStocks();
 
             _stockModel = new StockModel(stocks);
-            _stockModel.Changed += _stockModel_Changed;
-            RefreshTable();
-        }
+            _stockModel.Changed += (sender, e) => RefreshTable();
+            _stockModel.Changed += (sender, e) => SaveStocks();
 
-        private void _stockModel_Changed(object sender, EventArgs e)
-        {
             RefreshTable();
         }
 
@@ -84,8 +81,6 @@ namespace StockTracker
             _textBoxShares.Text = String.Empty;
             _textBoxPurchaseDate.Text = String.Empty;
             _textBoxPurchasePrice.Text = String.Empty;
-
-            SaveStocks();
         }
 
         private void SaveStocks()
@@ -109,7 +104,7 @@ namespace StockTracker
 
         private void ClearAllData(object sender, EventArgs e)
         {
-            _stocksRepository.DeleteAllStocks();
+            _stockModel.RemoveAll();
         }
     }
 }
