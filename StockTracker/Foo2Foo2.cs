@@ -12,9 +12,8 @@ internal class Foo2Foo2
         _stockPriceLoader = stockPriceLoader;
     }
 
-    public IEnumerable<StockPriceStockTotalPriceStockGain> Foo2(out double total, out double gain,
-        IEnumerable<Stock> enumerateStocks,
-        Action<Stock, double, double, double> foo1)
+    public IEnumerable<StockPriceStockTotalPriceStockGain> Foo2(
+        IEnumerable<Stock> enumerateStocks)
     {
         return from stock in enumerateStocks
             let price = _stockPriceLoader.Load(stock.Ticker)

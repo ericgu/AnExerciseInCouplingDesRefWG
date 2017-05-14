@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
 // ReSharper disable StringIndexOfIsCultureSpecific.1
@@ -34,16 +35,20 @@ namespace StockTracker
         {
             _listViewStocks.Items.Clear();
 
-            double total;
-            double gain;
             var foo2Foo2 = new Foo2Foo2(new StockPriceLoader());
-            foo2Foo2.Foo2(out total, out gain, _stockModel.EnumerateStocks(), Foo1);
-
+            var stockPriceStockTotalPriceStockGains = foo2Foo2.Foo2(_stockModel.EnumerateStocks());
+            foreach (var s in stockPriceStockTotalPriceStockGains)
+            {
+                Foo1(s.Stock,
+                    s.Price,
+                    s.StockTotalPrice,
+                    s.StockGain);
+            }
 
             var listViewItemLine = CreateListViewItem("------", "-", "-", "-");
             _listViewStocks.Items.Add(listViewItemLine);
 
-            var listViewItemTotal = CreateListViewItem("Total", "-", "-", total, gain);
+            var listViewItemTotal = CreateListViewItem("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice), stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain));
             _listViewStocks.Items.Add(listViewItemTotal);
         }
 
