@@ -11,6 +11,7 @@ namespace StockTracker
     {
         readonly StocksFileRepository _stocksRepository;
         private readonly StockModel _stockModel;
+        private readonly GainModel _gainModel;
 
         public Form1()
         {
@@ -24,6 +25,7 @@ namespace StockTracker
             _stockModel.Changed += (sender, e) => SaveStocks();
 
             RefreshTable();
+            _gainModel = new GainModel(new StockPriceLoader());
         }
 
         private void RefreshValues(object sender, EventArgs e)
@@ -35,8 +37,7 @@ namespace StockTracker
         {
             _listViewStocks.Items.Clear();
 
-            var foo2Foo2 = new Foo2Foo2(new StockPriceLoader());
-            var stockPriceStockTotalPriceStockGains = foo2Foo2.Foo2(_stockModel.EnumerateStocks());
+            var stockPriceStockTotalPriceStockGains = _gainModel.GetModel(_stockModel.EnumerateStocks());
             foreach (var s in stockPriceStockTotalPriceStockGains)
             {
                 var stock = s.Stock;

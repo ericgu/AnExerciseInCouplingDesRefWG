@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using StockTracker;
 
-internal class Foo2Foo2
+internal class GainModel
 {
     private readonly StockPriceLoader _stockPriceLoader;
 
-    public Foo2Foo2(StockPriceLoader stockPriceLoader)
+    public GainModel(StockPriceLoader stockPriceLoader)
     {
         _stockPriceLoader = stockPriceLoader;
     }
 
-    public IEnumerable<StockPriceStockTotalPriceStockGain> Foo2(
+    public IEnumerable<StockPriceStockTotalPriceStockGain> GetModel(
         IEnumerable<Stock> enumerateStocks)
     {
         return from stock in enumerateStocks
