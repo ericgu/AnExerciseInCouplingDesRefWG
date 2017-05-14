@@ -39,24 +39,19 @@ namespace StockTracker
             var stockPriceStockTotalPriceStockGains = foo2Foo2.Foo2(_stockModel.EnumerateStocks());
             foreach (var s in stockPriceStockTotalPriceStockGains)
             {
-                Foo1(s.Stock,
-                    s.Price,
-                    s.StockTotalPrice,
+                var stock = s.Stock;
+                var listViewItem = CreateListViewItem(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice,
                     s.StockGain);
+                _listViewStocks.Items.Add(listViewItem);
             }
 
             var listViewItemLine = CreateListViewItem("------", "-", "-", "-");
             _listViewStocks.Items.Add(listViewItemLine);
 
-            var listViewItemTotal = CreateListViewItem("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice), stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain));
+            var listViewItemTotal = CreateListViewItem("Total", "-", "-",
+                stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
+                stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain));
             _listViewStocks.Items.Add(listViewItemTotal);
-        }
-
-        private void Foo1(Stock stock, double price, double stockTotalPrice, double stockGain)
-        {
-            var listViewItem = CreateListViewItem(stock.Ticker, price, stock.Shares, stockTotalPrice,
-                stockGain);
-            _listViewStocks.Items.Add(listViewItem);
         }
 
         private static ListViewItem CreateListViewItem(params object[] parameters)
