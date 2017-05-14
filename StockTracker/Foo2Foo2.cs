@@ -12,20 +12,21 @@ internal class Foo2Foo2
         _stockPriceLoader = stockPriceLoader;
     }
 
-    public void Foo2(out double total, out double gain,
+    public List<StockPriceStockTotalPriceStockGain> Foo2(out double total, out double gain,
         IEnumerable<Stock> enumerateStocks,
         Action<Stock, double, double, double> foo1)
     {
+
+        var stockPriceStockTotalPriceStockGain = new List<StockPriceStockTotalPriceStockGain>();
         foreach (Stock stock in enumerateStocks)
         {
             var price = _stockPriceLoader.Load(stock.Ticker);
 
             var stockTotalPrice = stock.GetTotalPrice(price);
             var stockGain = stock.GetGain(price);
-            foo1(stock, price, stockTotalPrice, stockGain);
-
+            stockPriceStockTotalPriceStockGain.Add(new StockPriceStockTotalPriceStockGain(stock, price, stockTotalPrice, stockGain)
         }
-
+        return stockPriceStockTotalPriceStockGain;
     }
 
     public class StockPriceStockTotalPriceStockGain
