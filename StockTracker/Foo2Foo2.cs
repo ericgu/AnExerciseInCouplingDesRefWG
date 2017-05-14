@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using StockTracker;
 
-public static class Foo2Foo2
+public class Foo2Foo2
 {
     private static StockPriceLoader _stockPriceLoader;
 
