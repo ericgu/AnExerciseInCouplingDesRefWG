@@ -34,21 +34,9 @@ namespace StockTracker
         {
             _listViewStocks.Items.Clear();
 
-            double total = 0;
-            double gain = 0;
-            foreach (Stock stock in _stockModel.EnumerateStocks())
-            {
-                var price = new StockPriceLoader().Load(stock.Ticker);
-
-                var stockTotalPrice = stock.GetTotalPrice(price);
-                var stockGain = stock.GetGain(price);
-                var listViewItem = CreateListViewItem(stock.Ticker, price, stock.Shares, stockTotalPrice,
-                    stockGain);
-                _listViewStocks.Items.Add(listViewItem);
-
-                total += stockTotalPrice;
-                gain += stockGain;
-            }
+            double total;
+            double gain;
+            Foo2(out total, out gain);
 
 
             var listViewItemLine = CreateListViewItem("------", "-", "-", "-");
@@ -56,6 +44,30 @@ namespace StockTracker
 
             var listViewItemTotal = CreateListViewItem("Total", "-", "-", total, gain);
             _listViewStocks.Items.Add(listViewItemTotal);
+        }
+
+        private static void Foo2(out double total, out double gain)
+        {
+            total = 0;
+            gain = 0;
+            foreach (Stock stock in _stockModel.EnumerateStocks())
+            {
+                var price = new StockPriceLoader().Load(stock.Ticker);
+
+                var stockTotalPrice = stock.GetTotalPrice(price);
+                var stockGain = stock.GetGain(price);
+                Foo1(stock, price, stockTotalPrice, stockGain);
+
+                total += stockTotalPrice;
+                gain += stockGain;
+            }
+        }
+
+        private void Foo1(Stock stock, double price, double stockTotalPrice, double stockGain)
+        {
+            var listViewItem = CreateListViewItem(stock.Ticker, price, stock.Shares, stockTotalPrice,
+                stockGain);
+            _listViewStocks.Items.Add(listViewItem);
         }
 
         private static ListViewItem CreateListViewItem(params object[] parameters)
