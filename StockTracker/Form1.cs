@@ -36,7 +36,8 @@ namespace StockTracker
 
             double total;
             double gain;
-            Foo2Foo2.Foo2(out total, out gain, _stockModel.EnumerateStocks(), Foo1);
+            var foo2Foo2 = new Foo2Foo2(new StockPriceLoader());
+            foo2Foo2.Foo2(out total, out gain, _stockModel.EnumerateStocks(), Foo1);
 
 
             var listViewItemLine = CreateListViewItem("------", "-", "-", "-");

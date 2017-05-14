@@ -11,7 +11,7 @@ internal class Foo2Foo2
         _stockPriceLoader = stockPriceLoader;
     }
 
-    public static void Foo2(out double total, out double gain,
+    public void Foo2(out double total, out double gain,
         IEnumerable<Stock> enumerateStocks,
         Action<Stock, double, double, double> foo1)
     {
