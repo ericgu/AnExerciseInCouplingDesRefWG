@@ -9,23 +9,20 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        readonly StocksFileRepository _stocksRepository;
+        private readonly StocksFileRepository _stocksRepository;
         private readonly StockModel _stockModel;
         private readonly GainModel _gainModel;
 
-        public Form1()
+        public Form1(StocksFileRepository stocksFileRepository, GainModel gainModel)
         {
             InitializeComponent();
 
-            _stocksRepository = new StocksFileRepository();
             var stocks = LoadStocks();
-
-            _stockModel = new StockModel(stocks);
+            _stockModel = new StockModel(stocksFileRepository.LoadStocks());
             _stockModel.Changed += (sender, e) => RefreshTable();
             _stockModel.Changed += (sender, e) => SaveStocks();
 
             RefreshTable();
-            _gainModel = new GainModel(new StockPriceLoader());
         }
 
         private void RefreshValues(object sender, EventArgs e)

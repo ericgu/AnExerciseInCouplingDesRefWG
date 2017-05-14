@@ -1,44 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using StockTracker;
 
-internal class GainModel
+namespace StockTracker
 {
-    private readonly StockPriceLoader _stockPriceLoader;
-
-    public GainModel(StockPriceLoader stockPriceLoader)
+    public class GainModel
     {
-        _stockPriceLoader = stockPriceLoader;
-    }
+        private readonly StockPriceLoader _stockPriceLoader;
 
-    public IEnumerable<StockPriceStockTotalPriceStockGain> GetModel(
-        IEnumerable<Stock> enumerateStocks)
-    {
-        return from stock in enumerateStocks
-            let price = _stockPriceLoader.Load(stock.Ticker)
-            let stockTotalPrice = stock.GetTotalPrice(price)
-            let stockGain = stock.GetGain(price)
-            select new StockPriceStockTotalPriceStockGain(stock, price, stockTotalPrice, stockGain);
-    }
-
-    public class StockPriceStockTotalPriceStockGain
-    {
-        public StockPriceStockTotalPriceStockGain(
-            Stock stock,
-            double price,
-            double stockTotalPrice,
-            double stockGain)
+        public GainModel(StockPriceLoader stockPriceLoader)
         {
-            this.Stock = stock;
-            this.Price = price;
-            this.StockTotalPrice = stockTotalPrice;
-            this.StockGain = stockGain;
+            _stockPriceLoader = stockPriceLoader;
         }
 
-        public Stock Stock { get; }
-        public double Price { get;  }
-        public double StockTotalPrice { get; }
-        public double StockGain { get; }
+        public IEnumerable<StockPriceStockTotalPriceStockGain> GetModel(
+            IEnumerable<Stock> enumerateStocks)
+        {
+            return from stock in enumerateStocks
+                let price = _stockPriceLoader.Load(stock.Ticker)
+                let stockTotalPrice = stock.GetTotalPrice(price)
+                let stockGain = stock.GetGain(price)
+                select new StockPriceStockTotalPriceStockGain(stock, price, stockTotalPrice, stockGain);
+        }
+
+        public class StockPriceStockTotalPriceStockGain
+        {
+            public StockPriceStockTotalPriceStockGain(
+                Stock stock,
+                double price,
+                double stockTotalPrice,
+                double stockGain)
+            {
+                this.Stock = stock;
+                this.Price = price;
+                this.StockTotalPrice = stockTotalPrice;
+                this.StockGain = stockGain;
+            }
+
+            public Stock Stock { get; }
+            public double Price { get;  }
+            public double StockTotalPrice { get; }
+            public double StockGain { get; }
+        }
     }
 }
