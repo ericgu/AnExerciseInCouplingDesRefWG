@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using StockTracker;
 
-static internal class Foo2Foo2
+public static class Foo2Foo2
 {
+    private static StockPriceLoader _stockPriceLoader;
+
     public static void Foo2(out double total, out double gain,
         IEnumerable<Stock> enumerateStocks,
         Action<Stock, double, double, double> foo1)
@@ -12,7 +14,8 @@ static internal class Foo2Foo2
         gain = 0;
         foreach (Stock stock in enumerateStocks)
         {
-            var price = new StockPriceLoader().Load(stock.Ticker);
+            _stockPriceLoader = new StockPriceLoader();
+            var price = _stockPriceLoader.Load(stock.Ticker);
 
             var stockTotalPrice = stock.GetTotalPrice(price);
             var stockGain = stock.GetGain(price);
