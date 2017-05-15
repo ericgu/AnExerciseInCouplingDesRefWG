@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StockTracker
 {
-    internal class StocksFileCache : StocksLocalCache
+    public class StocksFileRepository
     {
         public void SaveStocks(IEnumerable<Stock> stocks)
         {
@@ -42,18 +42,6 @@ namespace StockTracker
             }
 
             return new List<Stock>();
-        }
-
-        public void Refresh()
-        {
-            string filename = GetCacheFilePath();
-
-            if (File.Exists(filename))
-            {
-                File.Delete(filename);
-            }
-
-            LoadStocks();
         }
 
         private string GetCacheFilePath()

@@ -3,7 +3,7 @@ using System.Net;
 
 namespace StockTracker
 {
-    internal class StockPriceLoader
+    public class StockPriceLoader
     {
         public double Load(string stockTicker)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
 // ReSharper disable StringIndexOfIsCultureSpecific.1
@@ -8,23 +9,19 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        readonly StocksLocalCache _stocksCache;
+        private readonly StocksFileRepository _stocksRepository;
         private readonly StockModel _stockModel;
+        private readonly GainModel _gainModel;
 
-        public Form1()
+        public Form1(StocksFileRepository stocksFileRepository, GainModel gainModel)
         {
             InitializeComponent();
 
-            _stocksCache = new StocksFileCache();
             var stocks = LoadStocks();
+            _stockModel = new StockModel(stocksFileRepository.LoadStocks());
+            _stockModel.Changed += (sender, e) => RefreshTable();
+            _stockModel.Changed += (sender, e) => SaveStocks();
 
-            _stockModel = new StockModel(stocks);
-            _stockModel.Changed += _stockModel_Changed;
-            RefreshTable();
-        }
-
-        private void _stockModel_Changed(object sender, EventArgs e)
-        {
             RefreshTable();
         }
 
@@ -37,25 +34,21 @@ namespace StockTracker
         {
             _listViewStocks.Items.Clear();
 
-            double total = 0;
-            double gain = 0;
-            foreach (Stock stock in _stockModel.EnumerateStocks())
+            var stockPriceStockTotalPriceStockGains = _gainModel.GetModel(_stockModel.EnumerateStocks());
+            foreach (var s in stockPriceStockTotalPriceStockGains)
             {
-                var price = new StockPriceLoader().Load(stock.Ticker);
-
-                var listViewItem = CreateListViewItem(stock.Ticker, price, stock.Shares, stock.Shares*price,
-                    stock.Shares*(price - stock.PurchasePrice));
+                var stock = s.Stock;
+                var listViewItem = CreateListViewItem(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice,
+                    s.StockGain);
                 _listViewStocks.Items.Add(listViewItem);
-
-                total += stock.Shares*price;
-                gain += stock.Shares*(price - stock.PurchasePrice);
             }
-
 
             var listViewItemLine = CreateListViewItem("------", "-", "-", "-");
             _listViewStocks.Items.Add(listViewItemLine);
 
-            var listViewItemTotal = CreateListViewItem("Total", "-", "-", total, gain);
+            var listViewItemTotal = CreateListViewItem("Total", "-", "-",
+                stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
+                stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain));
             _listViewStocks.Items.Add(listViewItemTotal);
         }
 
@@ -82,18 +75,16 @@ namespace StockTracker
             _textBoxShares.Text = String.Empty;
             _textBoxPurchaseDate.Text = String.Empty;
             _textBoxPurchasePrice.Text = String.Empty;
-
-            SaveStocks();
         }
 
         private void SaveStocks()
         {
-            _stocksCache.SaveStocks(_stockModel.EnumerateStocks());
+            _stocksRepository.SaveStocks(_stockModel.EnumerateStocks());
         }
 
         private List<Stock> LoadStocks()
         {
-            return _stocksCache.LoadStocks();
+            return _stocksRepository.LoadStocks();
         }
 
         private void DeleteStock(object sender, EventArgs e)
@@ -107,7 +98,7 @@ namespace StockTracker
 
         private void ClearAllData(object sender, EventArgs e)
         {
-            _stocksCache.Refresh();
+            _stockModel.RemoveAll();
         }
     }
 }
