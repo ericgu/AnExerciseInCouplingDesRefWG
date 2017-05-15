@@ -30,10 +30,10 @@ namespace StockTracker
                 double stockTotalPrice,
                 double stockGain)
             {
-                this.Stock = stock;
-                this.Price = price;
-                this.StockTotalPrice = stockTotalPrice;
-                this.StockGain = stockGain;
+                Stock = stock;
+                Price = price;
+                StockTotalPrice = stockTotalPrice;
+                StockGain = stockGain;
             }
 
             public Stock Stock { get; }
