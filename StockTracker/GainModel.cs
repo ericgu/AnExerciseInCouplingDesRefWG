@@ -22,7 +22,7 @@ namespace StockTracker
                         Stock = stock,
                         Price = _stockPriceLoader.Load(stock.Ticker)
                     })
-                .Select(t => new StockValue(t.Stock, t.Price, t.Stock.GetTotalPrice(t.Price), t.Stock.GetGain(t.Price))); 
+                .Select(t => new StockValue(t.Stock, t.Price, t.Stock.GetCurrentValue(t.Price), t.Stock.GetGain(t.Price))); 
        }
     }
 }
