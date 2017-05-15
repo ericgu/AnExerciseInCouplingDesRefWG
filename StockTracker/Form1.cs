@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
 // ReSharper disable StringIndexOfIsCultureSpecific.1
@@ -8,17 +9,16 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        readonly StocksFileRepository _stocksRepository;
+        private readonly StocksFileRepository _stocksRepository;
         private readonly StockModel _stockModel;
+        private readonly GainModel _gainModel;
 
-        public Form1()
+        public Form1(StocksFileRepository stocksFileRepository, GainModel gainModel)
         {
             InitializeComponent();
 
-            _stocksRepository = new StocksFileRepository();
             var stocks = LoadStocks();
-
-            _stockModel = new StockModel(stocks);
+            _stockModel = new StockModel(stocksFileRepository.LoadStocks());
             _stockModel.Changed += (sender, e) => RefreshTable();
             _stockModel.Changed += (sender, e) => SaveStocks();
 
@@ -34,27 +34,21 @@ namespace StockTracker
         {
             _listViewStocks.Items.Clear();
 
-            double total = 0;
-            double gain = 0;
-            foreach (Stock stock in _stockModel.EnumerateStocks())
+            var stockPriceStockTotalPriceStockGains = _gainModel.GetModel(_stockModel.EnumerateStocks());
+            foreach (var s in stockPriceStockTotalPriceStockGains)
             {
-                var price = new StockPriceLoader().Load(stock.Ticker);
-
-                var stockTotalPrice = stock.GetTotalPrice(price);
-                var stockGain = stock.GetGain(price);
-                var listViewItem = CreateListViewItem(stock.Ticker, price, stock.Shares, stockTotalPrice,
-                    stockGain);
+                var stock = s.Stock;
+                var listViewItem = CreateListViewItem(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice,
+                    s.StockGain);
                 _listViewStocks.Items.Add(listViewItem);
-
-                total += stockTotalPrice;
-                gain += stockGain;
             }
-
 
             var listViewItemLine = CreateListViewItem("------", "-", "-", "-");
             _listViewStocks.Items.Add(listViewItemLine);
 
-            var listViewItemTotal = CreateListViewItem("Total", "-", "-", total, gain);
+            var listViewItemTotal = CreateListViewItem("Total", "-", "-",
+                stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
+                stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain));
             _listViewStocks.Items.Add(listViewItemTotal);
         }
 
