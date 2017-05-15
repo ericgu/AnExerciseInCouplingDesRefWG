@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace StockTracker
 {
-    public class StockModel
+    public class StockCollection
     {
         private readonly List<Stock> _stocks;
         public event EventHandler Changed;
 
-        public StockModel(List<Stock> stocks)
+        public StockCollection(List<Stock> stocks)
         {
             _stocks = stocks;
         }
