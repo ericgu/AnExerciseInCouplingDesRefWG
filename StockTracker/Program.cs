@@ -18,7 +18,7 @@ namespace StockTracker
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(
                 new Form1(
-                    new StocksFileRepository(),
+                    new StocksStore(),
                     new GainModel(new StockPriceLoader())));
         }
     }
