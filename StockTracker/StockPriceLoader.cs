@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+// ReSharper disable StringIndexOfIsCultureSpecific.1
 
 namespace StockTracker
 {

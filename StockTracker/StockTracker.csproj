@@ -56,9 +56,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stock.cs" />
-    <Compile Include="StockModel.cs" />
+    <Compile Include="StockCollection.cs" />
     <Compile Include="StockPriceLoader.cs" />
-    <Compile Include="StocksFileRepository.cs" />
+    <Compile Include="StockValue.cs" />
+    <Compile Include="StocksStore.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

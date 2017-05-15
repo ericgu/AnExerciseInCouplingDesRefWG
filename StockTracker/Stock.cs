@@ -29,7 +29,7 @@ namespace StockTracker
             return Shares * (price - PurchasePrice);
         }
 
-        public double GetTotalPrice(double price)
+        public double GetCurrentValue(double price)
         {
             return Shares * price;
         }

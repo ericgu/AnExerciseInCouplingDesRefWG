@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
@@ -9,18 +8,19 @@ namespace StockTracker
 {
     public partial class Form1 : Form
     {
-        private readonly StocksFileRepository _stocksRepository;
-        private readonly StockModel _stockModel;
+        private readonly StocksStore _stocksRepository;
+        private readonly StockCollection _stockCollection;
         private readonly GainModel _gainModel;
 
-        public Form1(StocksFileRepository stocksFileRepository, GainModel gainModel)
+        public Form1(StocksStore stocksStore, GainModel gainModel)
         {
             InitializeComponent();
 
-            var stocks = LoadStocks();
-            _stockModel = new StockModel(stocksFileRepository.LoadStocks());
-            _stockModel.Changed += (sender, e) => RefreshTable();
-            _stockModel.Changed += (sender, e) => SaveStocks();
+            _stocksRepository = stocksStore;
+            _gainModel = gainModel;
+            _stockCollection = new StockCollection(stocksStore.LoadStocks());
+            _stockCollection.Changed += (sender, e) => RefreshTable();
+            _stockCollection.Changed += (sender, e) => SaveStocks();
 
             RefreshTable();
         }
@@ -34,7 +34,7 @@ namespace StockTracker
         {
             _listViewStocks.Items.Clear();
 
-            var stockPriceStockTotalPriceStockGains = _gainModel.GetModel(_stockModel.EnumerateStocks());
+            var stockPriceStockTotalPriceStockGains = _gainModel.GetModel(_stockCollection.EnumerateStocks()).ToList();
             foreach (var s in stockPriceStockTotalPriceStockGains)
             {
                 var stock = s.Stock;
@@ -70,7 +70,7 @@ namespace StockTracker
             double purchasePrice = Double.Parse(_textBoxPurchasePrice.Text);
             string purchaseDate = _textBoxPurchaseDate.Text;
 
-            _stockModel.Add(ticker, shares, purchasePrice, purchaseDate);
+            _stockCollection.Add(ticker, shares, purchasePrice, purchaseDate);
             _textBoxTicker.Text = String.Empty;
             _textBoxShares.Text = String.Empty;
             _textBoxPurchaseDate.Text = String.Empty;
@@ -79,12 +79,7 @@ namespace StockTracker
 
         private void SaveStocks()
         {
-            _stocksRepository.SaveStocks(_stockModel.EnumerateStocks());
-        }
-
-        private List<Stock> LoadStocks()
-        {
-            return _stocksRepository.LoadStocks();
+            _stocksRepository.SaveStocks(_stockCollection.EnumerateStocks());
         }
 
         private void DeleteStock(object sender, EventArgs e)
@@ -92,13 +87,13 @@ namespace StockTracker
             int index = _listViewStocks.SelectedIndices[0];
             if (index != -1)
             {
-                _stockModel.RemoveAt(index);
+                _stockCollection.RemoveAt(index);
             }
         }
 
         private void ClearAllData(object sender, EventArgs e)
         {
-            _stockModel.RemoveAll();
+            _stockCollection.RemoveAll();
         }
     }
 }
