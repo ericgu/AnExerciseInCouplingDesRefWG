@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
@@ -17,7 +16,8 @@ namespace StockTracker
         {
             InitializeComponent();
 
-            var stocks = LoadStocks();
+            _stocksRepository = stocksFileRepository;
+            _gainModel = gainModel;
             _stockModel = new StockModel(stocksFileRepository.LoadStocks());
             _stockModel.Changed += (sender, e) => RefreshTable();
             _stockModel.Changed += (sender, e) => SaveStocks();
@@ -80,11 +80,6 @@ namespace StockTracker
         private void SaveStocks()
         {
             _stocksRepository.SaveStocks(_stockModel.EnumerateStocks());
-        }
-
-        private List<Stock> LoadStocks()
-        {
-            return _stocksRepository.LoadStocks();
         }
 
         private void DeleteStock(object sender, EventArgs e)
