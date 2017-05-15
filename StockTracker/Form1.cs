@@ -34,7 +34,7 @@ namespace StockTracker
         {
             _listViewStocks.Items.Clear();
 
-            var stockPriceStockTotalPriceStockGains = _gainModel.GetModel(_stockCollection.EnumerateStocks());
+            var stockPriceStockTotalPriceStockGains = _gainModel.GetModel(_stockCollection.EnumerateStocks()).ToList();
             foreach (var s in stockPriceStockTotalPriceStockGains)
             {
                 var stock = s.Stock;
