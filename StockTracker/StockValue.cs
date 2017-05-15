@@ -1,8 +1,8 @@
 ﻿namespace StockTracker
 {
-    public class StockPriceStockTotalPriceStockGain
+    public class StockValue
     {
-        public StockPriceStockTotalPriceStockGain(
+        public StockValue(
             Stock stock,
             double price,
             double stockTotalPrice,

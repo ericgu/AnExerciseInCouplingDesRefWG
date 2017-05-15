@@ -12,14 +12,14 @@ namespace StockTracker
             _stockPriceLoader = stockPriceLoader;
         }
 
-        public IEnumerable<StockPriceStockTotalPriceStockGain> GetModel(
+        public IEnumerable<StockValue> GetModel(
             IEnumerable<Stock> enumerateStocks)
         {
             return from stock in enumerateStocks
                 let price = _stockPriceLoader.Load(stock.Ticker)
                 let stockTotalPrice = stock.GetTotalPrice(price)
                 let stockGain = stock.GetGain(price)
-                select new StockPriceStockTotalPriceStockGain(stock, price, stockTotalPrice, stockGain);
+                select new StockValue(stock, price, stockTotalPrice, stockGain);
         }
     }
 }
