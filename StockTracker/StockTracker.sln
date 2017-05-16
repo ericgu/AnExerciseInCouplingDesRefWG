@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTracker", "StockTracker.csproj", "{5BCF6E00-8536-4AC5-875A-0B8ADE6173D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrackerTests", "..\UnitTestProject1\StockTrackerTests.csproj", "{C5678217-DE59-43C8-B42B-92C62A881BA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTrackerTests", "..\StockTrackerTests\StockTrackerTests.csproj", "{C5678217-DE59-43C8-B42B-92C62A881BA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
