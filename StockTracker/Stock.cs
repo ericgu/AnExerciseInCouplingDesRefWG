@@ -16,8 +16,8 @@ namespace StockTracker
 
         public string Ticker { get; }
         public double Shares { get; }
-        private double PurchasePrice { get; }
-        private string PurchaseDate { get; }
+        public double PurchasePrice { get; }
+        public string PurchaseDate { get; }
 
         public override string ToString()
         {
