@@ -10,7 +10,7 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_create_a_stock__the_properties_are_correct()
         {
-            Stock stock = new Stock("MSFT", 11, 25, "12/12/2012");
+            var stock = new Stock("MSFT", 11, 25, "12/12/2012");
 
             stock.Ticker.Should().Be("MSFT");
             stock.Shares.Should().Be(11);
@@ -21,7 +21,7 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_call_ToString__the_value_is_correct()
         {
-            Stock stock = new Stock("MSFT", 11, 25, "12/12/2012");
+            var stock = new Stock("MSFT", 11, 25, "12/12/2012");
 
             stock.ToString().Should().Be("MSFT:11:25:12/12/2012");
         }
@@ -30,7 +30,7 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_call_GetCurrentValue__the_value_is_correct()
         {
-            Stock stock = new Stock("MSFT", 11, 25, "12/12/2012");
+            var stock = new Stock("MSFT", 11, 25, "12/12/2012");
 
             stock.GetCurrentValue(100).Should().Be(1100);
         }
@@ -38,7 +38,7 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_call_GetGain__the_value_is_correct()
         {
-            Stock stock = new Stock("MSFT", 11, 25, "12/12/2012");
+            var stock = new Stock("MSFT", 11, 25, "12/12/2012");
 
             stock.GetGain(100).Should().Be(825);
         }

@@ -12,11 +12,11 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_create_a_stock_collection__it_contains_those_stocks()
         {
-            List<Stock> stocks = new List<Stock>();
+            var stocks = new List<Stock>();
             stocks.Add(new Stock("MSFT", 11, 25, "12/12/2012"));
             stocks.Add(new Stock("F", 7, 12, "11/11/2011"));
 
-            StockCollection stockCollection = new StockCollection(stocks);
+            var stockCollection = new StockCollection(stocks);
 
             stockCollection.EnumerateStocks().Should().HaveCount(2);
             stockCollection.EnumerateStocks().First().Ticker.Should().Be("MSFT");
@@ -26,8 +26,8 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_add_a_stock__the_stock_is_added_and_the_changed_event_is_fired()
         {
-            List<Stock> stocks = new List<Stock>();
-            StockCollection stockCollection = new StockCollection(stocks);
+            var stocks = new List<Stock>();
+            var stockCollection = new StockCollection(stocks);
             stockCollection.MonitorEvents();
 
             stockCollection.Add("MSFT", 11, 25, "12/12/2012");
@@ -40,8 +40,8 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_remove_a_stock__the_stock_is_removed_and_the_changed_event_is_fired()
         {
-            List<Stock> stocks = new List<Stock>();
-            StockCollection stockCollection = new StockCollection(stocks);
+            var stocks = new List<Stock>();
+            var stockCollection = new StockCollection(stocks);
             stockCollection.Add("MSFT", 11, 25, "12/12/2012");
             stockCollection.Add("GOOG", 12, 26, "10/10/2013");
             stockCollection.MonitorEvents();
@@ -55,8 +55,8 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_remove_all_stocks__the_stocks_are_removed_and_the_changed_event_is_fired()
         {
-            List<Stock> stocks = new List<Stock>();
-            StockCollection stockCollection = new StockCollection(stocks);
+            var stocks = new List<Stock>();
+            var stockCollection = new StockCollection(stocks);
             stockCollection.Add("MSFT", 11, 25, "12/12/2012");
             stockCollection.Add("GOOG", 12, 26, "10/10/2013");
             stockCollection.MonitorEvents();
