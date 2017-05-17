@@ -12,9 +12,11 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_create_a_stock_collection__it_contains_those_stocks()
         {
-            var stocks = new List<Stock>();
-            stocks.Add(new Stock("MSFT", 11, 25, "12/12/2012"));
-            stocks.Add(new Stock("F", 7, 12, "11/11/2011"));
+            var stocks = new List<Stock>
+            {
+                new Stock("MSFT", 11, 25, "12/12/2012"),
+                new Stock("F", 7, 12, "11/11/2011")
+            };
 
             var stockCollection = new StockCollection(stocks);
 
