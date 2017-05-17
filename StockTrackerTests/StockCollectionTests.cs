@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StockTracker;
 
@@ -17,21 +18,23 @@ namespace StockTrackerTests
 
             StockCollection stockCollection = new StockCollection(stocks);
 
-            Assert.AreEqual("MSFT", stockCollection.EnumerateStocks().First().Ticker);
-            Assert.AreEqual("F", stockCollection.EnumerateStocks().Skip(1).First().Ticker);
+            stockCollection.EnumerateStocks().Should().HaveCount(2);
+            stockCollection.EnumerateStocks().First().Ticker.Should().Be("MSFT");
+            stockCollection.EnumerateStocks().Skip(1).First().Ticker.Should().Be("F");
         }
 
         [TestMethod]
         public void when_I_add_a_stock__the_stock_is_added_and_the_changed_event_is_fired()
         {
-            bool changedCalled = false;
             List<Stock> stocks = new List<Stock>();
             StockCollection stockCollection = new StockCollection(stocks);
-            stockCollection.Changed += (s, e) => { changedCalled = true; };
+            stockCollection.MonitorEvents();
 
             stockCollection.Add("MSFT", 11, 25, "12/12/2012");
-            Assert.AreEqual("MSFT", stockCollection.EnumerateStocks().First().Ticker);
-            Assert.IsTrue(changedCalled);
+
+            stockCollection.EnumerateStocks().Should().HaveCount(1);
+            stockCollection.EnumerateStocks().First().Ticker.Should().Be("MSFT");
+            stockCollection.ShouldRaise(nameof(StockCollection.Changed));
         }
 
         [TestMethod]
@@ -41,14 +44,12 @@ namespace StockTrackerTests
             StockCollection stockCollection = new StockCollection(stocks);
             stockCollection.Add("MSFT", 11, 25, "12/12/2012");
             stockCollection.Add("GOOG", 12, 26, "10/10/2013");
-
-            bool changedCalled = false;
-            stockCollection.Changed += (s, e) => { changedCalled = true; };
+            stockCollection.MonitorEvents();
 
             stockCollection.RemoveAt(0);
 
-            Assert.AreEqual(1, stockCollection.EnumerateStocks().Count());
-            Assert.IsTrue(changedCalled);
+            stockCollection.EnumerateStocks().Should().HaveCount(1);
+            stockCollection.ShouldRaise(nameof(StockCollection.Changed));
         }
 
         [TestMethod]
@@ -58,14 +59,12 @@ namespace StockTrackerTests
             StockCollection stockCollection = new StockCollection(stocks);
             stockCollection.Add("MSFT", 11, 25, "12/12/2012");
             stockCollection.Add("GOOG", 12, 26, "10/10/2013");
-
-            bool changedCalled = false;
-            stockCollection.Changed += (s, e) => { changedCalled = true; };
+            stockCollection.MonitorEvents();
 
             stockCollection.RemoveAll();
 
-            Assert.AreEqual(0, stockCollection.EnumerateStocks().Count());
-            Assert.IsTrue(changedCalled);
+            stockCollection.EnumerateStocks().Should().BeEmpty();
+            stockCollection.ShouldRaise(nameof(StockCollection.Changed));
         }
     }
 }
