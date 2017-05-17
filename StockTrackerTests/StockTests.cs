@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StockTracker;
 
 namespace StockTrackerTests
@@ -11,10 +12,10 @@ namespace StockTrackerTests
         {
             Stock stock = new Stock("MSFT", 11, 25, "12/12/2012");
 
-            Assert.AreEqual("MSFT", stock.Ticker);
-            Assert.AreEqual(11, stock.Shares);
-            Assert.AreEqual("12/12/2012", stock.PurchaseDate);
-            Assert.AreEqual(25, stock.PurchasePrice);
+            stock.Ticker.Should().Be("MSFT");
+            stock.Shares.Should().Be(11);
+            stock.PurchaseDate.Should().Be("12/12/2012");
+            stock.PurchasePrice.Should().Be(25);
         }
 
         [TestMethod]
@@ -22,7 +23,7 @@ namespace StockTrackerTests
         {
             Stock stock = new Stock("MSFT", 11, 25, "12/12/2012");
 
-            Assert.AreEqual("MSFT:11:25:12/12/2012", stock.ToString());
+            stock.ToString().Should().Be("MSFT:11:25:12/12/2012");
         }
 
 
@@ -31,7 +32,7 @@ namespace StockTrackerTests
         {
             Stock stock = new Stock("MSFT", 11, 25, "12/12/2012");
 
-            Assert.AreEqual(1100, stock.GetCurrentValue(100));
+            stock.GetCurrentValue(100).Should().Be(1100);
         }
 
         [TestMethod]
@@ -39,7 +40,7 @@ namespace StockTrackerTests
         {
             Stock stock = new Stock("MSFT", 11, 25, "12/12/2012");
 
-            Assert.AreEqual(825, stock.GetGain(100));
+            stock.GetGain(100).Should().Be(825);
         }
     }
 }
