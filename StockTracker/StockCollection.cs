@@ -13,6 +13,11 @@ namespace StockTracker
             _stocks = stocks;
         }
 
+        public StockCollection() : this(new List<Stock>())
+        {
+
+        }
+
         public void Add(string ticker, double shares, double purchasePrice, string purchaseDate)
         {
             _stocks.Add(new Stock(ticker, shares, purchasePrice, purchaseDate));

@@ -26,10 +26,17 @@ namespace StockTrackerTests
         }
 
         [TestMethod]
+        public void when_I_create_an_empty_stock_collection__it_contains_no_stocks()
+        {
+            var stockCollection = new StockCollection();
+
+            stockCollection.EnumerateStocks().Should().BeEmpty();
+        }
+
+        [TestMethod]
         public void when_I_add_a_stock__the_stock_is_added_and_the_changed_event_is_fired()
         {
-            var stocks = new List<Stock>();
-            var stockCollection = new StockCollection(stocks);
+            var stockCollection = new StockCollection();
             stockCollection.MonitorEvents();
 
             stockCollection.Add("MSFT", 11, 25, "12/12/2012");
@@ -42,8 +49,7 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_remove_a_stock__the_stock_is_removed_and_the_changed_event_is_fired()
         {
-            var stocks = new List<Stock>();
-            var stockCollection = new StockCollection(stocks);
+            var stockCollection = new StockCollection();
             stockCollection.Add("MSFT", 11, 25, "12/12/2012");
             stockCollection.Add("GOOG", 12, 26, "10/10/2013");
             stockCollection.MonitorEvents();
@@ -57,8 +63,7 @@ namespace StockTrackerTests
         [TestMethod]
         public void when_I_remove_all_stocks__the_stocks_are_removed_and_the_changed_event_is_fired()
         {
-            var stocks = new List<Stock>();
-            var stockCollection = new StockCollection(stocks);
+            var stockCollection = new StockCollection();
             stockCollection.Add("MSFT", 11, 25, "12/12/2012");
             stockCollection.Add("GOOG", 12, 26, "10/10/2013");
             stockCollection.MonitorEvents();
