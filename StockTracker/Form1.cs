@@ -19,37 +19,37 @@ namespace StockTracker
             _stocksRepository = stocksStore;
             _gainModel = gainModel;
             _stockCollection = new StockCollection(stocksStore.LoadStocks());
-            _stockCollection.Changed += (sender, e) => RefreshTable();
+            _stockCollection.Changed += (sender, e) => RefreshTable(_stockCollection, _gainModel, _listViewStocks);
             _stockCollection.Changed += (sender, e) => SaveStocks();
 
-            RefreshTable();
+            RefreshTable(_stockCollection, _gainModel, _listViewStocks);
         }
 
         private void RefreshValues(object sender, EventArgs e)
         {
-            RefreshTable();
+            RefreshTable(_stockCollection, _gainModel, _listViewStocks);
         }
 
-        private void RefreshTable()
+        private static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks)
         {
-            _listViewStocks.Items.Clear();
+            listViewStocks.Items.Clear();
 
-            var stockPriceStockTotalPriceStockGains = _gainModel.GetModel(_stockCollection.EnumerateStocks()).ToList();
+            var stockPriceStockTotalPriceStockGains = gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
             foreach (var s in stockPriceStockTotalPriceStockGains)
             {
                 var stock = s.Stock;
                 var listViewItem = CreateListViewItem(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice,
                     s.StockGain);
-                _listViewStocks.Items.Add(listViewItem);
+                listViewStocks.Items.Add(listViewItem);
             }
 
             var listViewItemLine = CreateListViewItem("------", "-", "-", "-");
-            _listViewStocks.Items.Add(listViewItemLine);
+            listViewStocks.Items.Add(listViewItemLine);
 
             var listViewItemTotal = CreateListViewItem("Total", "-", "-",
                 stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
                 stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain));
-            _listViewStocks.Items.Add(listViewItemTotal);
+            listViewStocks.Items.Add(listViewItemTotal);
         }
 
         private static ListViewItem CreateListViewItem(params object[] parameters)
