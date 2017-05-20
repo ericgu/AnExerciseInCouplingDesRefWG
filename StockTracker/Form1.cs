@@ -62,7 +62,7 @@ namespace StockTracker
             _stockCollection.RemoveAll();
         }
 
-        public static void AddItemToList(ListView listViewStocks, params object[] parameters)
+        public static void AddItemToList(ListView listViewStocks, Form1 that, params object[] parameters)
         {
             var listViewItem = new ListViewItem(parameters[0].ToString());
 
@@ -73,7 +73,7 @@ namespace StockTracker
             listViewStocks.Items.Add(listViewItem);
         }
 
-        public static void ClearList(ListView listViewStocks)
+        public static void ClearList(ListView listViewStocks, Form1 that)
         {
             listViewStocks.Items.Clear();
         }
