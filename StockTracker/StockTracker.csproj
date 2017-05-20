@@ -58,6 +58,8 @@
     <Compile Include="Stock.cs" />
     <Compile Include="StockCollection.cs" />
     <Compile Include="StockPriceLoader.cs" />
+    <Compile Include="E_StockProcessor.cs" />
+    <Compile Include="V_StockProcessor.cs" />
     <Compile Include="StockValue.cs" />
     <Compile Include="StocksStore.cs" />
     <EmbeddedResource Include="Form1.resx">
