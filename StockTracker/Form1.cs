@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace StockTracker
 {
-    public partial class Form1 : Form, IStockDisplayTable
+    public partial class Form1 : Form, E_IStockDisplayTable
     {
         private readonly StocksStore _stocksRepository;
         private readonly StockCollection _stockCollection;
