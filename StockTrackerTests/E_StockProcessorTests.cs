@@ -27,6 +27,16 @@ namespace StockTrackerTests
         {
             Items.Clear();
         }
+
+        public void ValidateLine(int lineNumber, params string[] parameters)
+        {
+            var line = Items.Skip(lineNumber).First();
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                line[i].Should().Be(parameters[i], i.ToString());
+            }
+        }
     }
 
     public class E_GainModelMock : E_IGainModel
@@ -52,17 +62,25 @@ namespace StockTrackerTests
             E_StockProcessor.RefreshTable(stocks, gainModel, stockDisplay);
 
             stockDisplay.Items.Count.Should().Be(3);
-            ValidateLine(stockDisplay, "MSFT", "15", "100", "25", "33");
+            stockDisplay.ValidateLine(0, "MSFT", "15", "100", "25", "33");
         }
 
-        private static void ValidateLine(E_StockDisplayTableMock stockDisplay, params string[] parameters)
+        [TestMethod]
+        public void when_I_call_RefreshTable_with_two_stocks__the_stock_lines_and_total_are_correct()
         {
-            var line = stockDisplay.Items.First();
+            StockCollection stocks = new StockCollection();
+            stocks.Add("MSFT", 100, 100, "5/10/2020");
+            stocks.Add("GOOG", 300, 400, "6/10/2020");
 
-            for (int i = 0; i < parameters.Length; i++)
-            {
-                line[i].Should().Be(parameters[i], i.ToString());
-            }
+            E_StockDisplayTableMock stockDisplay = new E_StockDisplayTableMock();
+            E_GainModelMock gainModel = new E_GainModelMock();
+
+            E_StockProcessor.RefreshTable(stocks, gainModel, stockDisplay);
+
+            stockDisplay.Items.Count.Should().Be(4);
+            stockDisplay.ValidateLine(0, "MSFT", "15", "100", "25", "33");
+            stockDisplay.ValidateLine(1, "GOOG", "15", "300", "25", "33");
+            stockDisplay.ValidateLine(3, "Total", "-", "-", "50", "66");
         }
     }
 }
