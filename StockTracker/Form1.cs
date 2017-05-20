@@ -61,5 +61,21 @@ namespace StockTracker
         {
             _stockCollection.RemoveAll();
         }
+
+        public static void AddItemToList(ListView listViewStocks, params object[] parameters)
+        {
+            var listViewItem = new ListViewItem(parameters[0].ToString());
+
+            for (int i = 1; i < new[] {parameters}.Length; i++)
+            {
+                listViewItem.SubItems.Add(new[] {parameters}[i].ToString());
+            }
+            listViewStocks.Items.Add(listViewItem);
+        }
+
+        public static void ClearList(ListView listViewStocks)
+        {
+            listViewStocks.Items.Clear();
+        }
     }
 }
