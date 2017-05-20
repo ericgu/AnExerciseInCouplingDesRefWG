@@ -26,7 +26,7 @@ namespace StockTracker
 
         private void RefreshValues(object sender, EventArgs e)
         {
-            V_StockProcessor.RefreshTable(_stockCollection, _gainModel, _listViewStocks);
+            E_StockProcessor.RefreshTable(_stockCollection, _gainModel, _listViewStocks, this);
         }
 
         private void AddTicker(object sender, EventArgs e)
@@ -62,7 +62,7 @@ namespace StockTracker
             _stockCollection.RemoveAll();
         }
 
-        public static void AddItemToList(ListView listViewStocks, Form1 that, params object[] parameters)
+        public void AddItemToList(ListView listViewStocks, params object[] parameters)
         {
             var listViewItem = new ListViewItem(parameters[0].ToString());
 
@@ -70,12 +70,12 @@ namespace StockTracker
             {
                 listViewItem.SubItems.Add(new[] {parameters}[i].ToString());
             }
-            listViewStocks.Items.Add(listViewItem);
+            _listViewStocks.Items.Add(listViewItem);
         }
 
-        public static void ClearList(ListView listViewStocks, Form1 that)
+        public void ClearList(ListView listViewStocks)
         {
-            listViewStocks.Items.Clear();
+            _listViewStocks.Items.Clear();
         }
     }
 }
