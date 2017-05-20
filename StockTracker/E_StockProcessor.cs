@@ -1,11 +1,10 @@
 using System.Linq;
-using System.Windows.Forms;
 
 namespace StockTracker
 {
-    internal static class E_StockProcessor
+    public static class E_StockProcessor
     {
-        public static void RefreshTable(StockCollection stockCollection, E_IGainModel gainModel, ListView listViewStocks, E_IStockDisplayTable stockDisplayTable)
+        public static void RefreshTable(StockCollection stockCollection, E_IGainModel gainModel, E_IStockDisplayTable stockDisplayTable)
         {
             stockDisplayTable.ClearList();
 
