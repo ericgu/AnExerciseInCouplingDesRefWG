@@ -27,6 +27,7 @@ namespace StockTracker
         private void RefreshValues(object sender, EventArgs e)
         {
             E_StockProcessor.RefreshTable(_stockCollection, _gainModel, _listViewStocks, this);
+            V_StockProcessor.RefreshTable(_stockCollection, _gainModel, _listViewStocks);
         }
 
         private void AddTicker(object sender, EventArgs e)
