@@ -5,7 +5,7 @@ namespace StockTracker
 {
     internal static class E_StockProcessor
     {
-        public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks, Form1 form1)
+        public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks, IStockDisplayTable form1)
         {
             form1.ClearList();
 
