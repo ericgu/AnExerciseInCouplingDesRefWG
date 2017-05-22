@@ -20,6 +20,8 @@ namespace StockTracker
         {
             var lineInfos = GetLineInfos(stockCollection, gainModel);
             var listViewItems = lineInfos.Select(CreateListViewItem).ToArray();
+
+            listViewStocks.Items.Clear();
             listViewStocks.Items.AddRange(listViewItems);
         }
 
