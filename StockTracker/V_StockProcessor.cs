@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace StockTracker
 {
-    internal class Foo
+    internal class LineInfo
     {
-        public Foo(params object[] parameters)
+        public LineInfo(params object[] parameters)
         {
             Parameters = parameters;
         }
@@ -18,37 +18,37 @@ namespace StockTracker
     {
         public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks)
         {
-            var foos = GetFoos(stockCollection, gainModel);
-            var listViewItems = foos.Select(CreateListViewItem).ToArray();
+            var lineInfos = GetLineInfos(stockCollection, gainModel);
+            var listViewItems = lineInfos.Select(CreateListViewItem).ToArray();
             listViewStocks.Items.AddRange(listViewItems);
         }
 
-        private static List<Foo> GetFoos(StockCollection stockCollection, GainModel gainModel)
+        private static List<LineInfo> GetLineInfos(StockCollection stockCollection, GainModel gainModel)
         {
-            var foos = new List<Foo>();
+            var lineInfos = new List<LineInfo>();
 
             var stockPriceStockTotalPriceStockGains = gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
             foreach (var s in stockPriceStockTotalPriceStockGains)
             {
                 var stock = s.Stock;
-                foos.Add(new Foo(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice, s.StockGain));
+                lineInfos.Add(new LineInfo(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice, s.StockGain));
             }
 
-            foos.Add(new Foo("------", "-", "-", "-"));
+            lineInfos.Add(new LineInfo("------", "-", "-", "-"));
 
-            foos.Add(new Foo("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
+            lineInfos.Add(new LineInfo("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
                     stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain)));
 
-            return foos;
+            return lineInfos;
         }
 
-        public static ListViewItem CreateListViewItem(Foo foo)
+        public static ListViewItem CreateListViewItem(LineInfo lineInfo)
         {
-            var listViewItem = new ListViewItem(foo.Parameters[0].ToString());
+            var listViewItem = new ListViewItem(lineInfo.Parameters[0].ToString());
 
-            for (int i = 1; i < foo.Parameters.Length; i++)
+            for (int i = 1; i < lineInfo.Parameters.Length; i++)
             {
-                listViewItem.SubItems.Add(foo.Parameters[i].ToString());
+                listViewItem.SubItems.Add(lineInfo.Parameters[i].ToString());
             }
             return listViewItem;
         }
