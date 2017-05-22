@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -17,21 +18,28 @@ namespace StockTracker
     {
         public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks)
         {
-            listViewStocks.Items.Clear();
+            var foos = GetFoos(stockCollection, gainModel);
+            var listViewItems = foos.Select(CreateListViewItem).ToArray();
+            listViewStocks.Items.AddRange(listViewItems);
+        }
+
+        private static List<Foo> GetFoos(StockCollection stockCollection, GainModel gainModel)
+        {
+            var foos = new List<Foo>();
 
             var stockPriceStockTotalPriceStockGains = gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
             foreach (var s in stockPriceStockTotalPriceStockGains)
             {
                 var stock = s.Stock;
-                var listViewItem = CreateListViewItem(new Foo(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice, s.StockGain));
-                listViewStocks.Items.Add(listViewItem);
+                foos.Add(new Foo(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice, s.StockGain));
             }
 
-            var listViewItemLine = CreateListViewItem(new Foo("------", "-", "-", "-"));
-            listViewStocks.Items.Add(listViewItemLine);
+            foos.Add(new Foo("------", "-", "-", "-"));
 
-            var listViewItemTotal = CreateListViewItem(new Foo("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice), stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain)));
-            listViewStocks.Items.Add(listViewItemTotal);
+            foos.Add(new Foo("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
+                    stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain)));
+
+            return foos;
         }
 
         public static ListViewItem CreateListViewItem(Foo foo)
