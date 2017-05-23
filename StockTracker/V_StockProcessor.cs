@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace StockTracker
 {
-    internal static class V_StockProcessor
+    public static class V_StockProcessor
     {
         public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks)
         {
@@ -15,7 +15,7 @@ namespace StockTracker
             listViewStocks.Items.AddRange(listViewItems);
         }
 
-        private static List<V_LineInfo> GetLineInfos(StockCollection stockCollection, GainModel gainModel)
+        public static List<V_LineInfo> GetLineInfos(StockCollection stockCollection, E_IGainModel gainModel)
         {
             var lineInfos = new List<V_LineInfo>();
 
