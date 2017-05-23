@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace StockTracker
 {
-    public class GainModel
+    public class GainModel : E_IGainModel
     {
         private readonly StockPriceLoader _stockPriceLoader;
 

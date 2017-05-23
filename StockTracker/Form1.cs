@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace StockTracker
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, E_IStockDisplayTable
     {
         private readonly StocksStore _stocksRepository;
         private readonly StockCollection _stockCollection;
@@ -26,6 +26,7 @@ namespace StockTracker
 
         private void RefreshValues(object sender, EventArgs e)
         {
+            E_StockProcessor.RefreshTable(_stockCollection, _gainModel, this);
             V_StockProcessor.RefreshTable(_stockCollection, _gainModel, _listViewStocks);
         }
 
@@ -60,6 +61,22 @@ namespace StockTracker
         private void ClearAllData(object sender, EventArgs e)
         {
             _stockCollection.RemoveAll();
+        }
+
+        public void AddItemToList(params object[] parameters)
+        {
+            var listViewItem = new ListViewItem(parameters[0].ToString());
+
+            for (int i = 1; i < new[] {parameters}.Length; i++)
+            {
+                listViewItem.SubItems.Add(new[] {parameters}[i].ToString());
+            }
+            _listViewStocks.Items.Add(listViewItem);
+        }
+
+        public void ClearList()
+        {
+            _listViewStocks.Items.Clear();
         }
     }
 }

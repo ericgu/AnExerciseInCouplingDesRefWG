@@ -4,16 +4,6 @@ using System.Windows.Forms;
 
 namespace StockTracker
 {
-    internal class LineInfo
-    {
-        public LineInfo(params object[] parameters)
-        {
-            Parameters = parameters;
-        }
-
-        public object[] Parameters { get; }
-    }
-
     internal static class V_StockProcessor
     {
         public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks)
@@ -25,26 +15,26 @@ namespace StockTracker
             listViewStocks.Items.AddRange(listViewItems);
         }
 
-        private static List<LineInfo> GetLineInfos(StockCollection stockCollection, GainModel gainModel)
+        private static List<V_LineInfo> GetLineInfos(StockCollection stockCollection, GainModel gainModel)
         {
-            var lineInfos = new List<LineInfo>();
+            var lineInfos = new List<V_LineInfo>();
 
             var stockPriceStockTotalPriceStockGains = gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
             foreach (var s in stockPriceStockTotalPriceStockGains)
             {
                 var stock = s.Stock;
-                lineInfos.Add(new LineInfo(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice, s.StockGain));
+                lineInfos.Add(new V_LineInfo(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice, s.StockGain));
             }
 
-            lineInfos.Add(new LineInfo("------", "-", "-", "-"));
+            lineInfos.Add(new V_LineInfo("------", "-", "-", "-"));
 
-            lineInfos.Add(new LineInfo("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
+            lineInfos.Add(new V_LineInfo("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
                     stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain)));
 
             return lineInfos;
         }
 
-        public static ListViewItem CreateListViewItem(LineInfo lineInfo)
+        public static ListViewItem CreateListViewItem(V_LineInfo lineInfo)
         {
             var listViewItem = new ListViewItem(lineInfo.Parameters[0].ToString());
 
