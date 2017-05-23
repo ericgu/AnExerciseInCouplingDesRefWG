@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+
 namespace StockTracker
 {
-    internal class V_LineInfo
+    public class V_LineInfo
     {
         public V_LineInfo(params object[] parameters)
         {
@@ -8,5 +11,23 @@ namespace StockTracker
         }
 
         public object[] Parameters { get; }
+
+        private bool Equals(V_LineInfo other)
+        {
+            return (Parameters as IStructuralEquatable).Equals(other.Parameters, EqualityComparer<object>.Default);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((V_LineInfo)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Parameters?.GetHashCode() ?? 0;
+        }
     }
 }
