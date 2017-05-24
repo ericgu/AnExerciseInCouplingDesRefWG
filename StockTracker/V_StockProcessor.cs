@@ -8,19 +8,24 @@ namespace StockTracker
     {
         public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks)
         {
-            var lineInfos = GetLineInfos(stockCollection, gainModel);
+            var stockValues = GetStockValues(stockCollection, gainModel);
+            var lineInfos = GetLineInfos(stockValues);
             var listViewItems = lineInfos.Select(CreateListViewItem).ToArray();
 
             listViewStocks.Items.Clear();
             listViewStocks.Items.AddRange(listViewItems);
         }
 
-        public static List<V_LineInfo> GetLineInfos(StockCollection stockCollection, E_IGainModel gainModel)
+        public static List<StockValue> GetStockValues(StockCollection stockCollection, GainModel gainModel)
+        {
+            return gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
+        }
+
+        public static List<V_LineInfo> GetLineInfos(List<StockValue> stockValues)
         {
             var lineInfos = new List<V_LineInfo>();
 
-            var stockPriceStockTotalPriceStockGains = gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
-            foreach (var s in stockPriceStockTotalPriceStockGains)
+            foreach (var s in stockValues)
             {
                 var stock = s.Stock;
                 lineInfos.Add(new V_LineInfo(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice, s.StockGain));
@@ -28,8 +33,8 @@ namespace StockTracker
 
             lineInfos.Add(new V_LineInfo("------", "-", "-", "-"));
 
-            lineInfos.Add(new V_LineInfo("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
-                    stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain)));
+            lineInfos.Add(new V_LineInfo("Total", "-", "-", stockValues.Sum(s => s.StockTotalPrice),
+                    stockValues.Sum(s => s.StockGain)));
 
             return lineInfos;
         }
