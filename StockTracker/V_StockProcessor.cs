@@ -8,11 +8,17 @@ namespace StockTracker
     {
         public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks)
         {
-            var lineInfos = GetLineInfos(((E_IGainModel) gainModel).GetModel(stockCollection.EnumerateStocks()).ToList());
+            var stockValues = GetStockValues(stockCollection, gainModel);
+            var lineInfos = GetLineInfos(stockValues);
             var listViewItems = lineInfos.Select(CreateListViewItem).ToArray();
 
             listViewStocks.Items.Clear();
             listViewStocks.Items.AddRange(listViewItems);
+        }
+
+        public static List<StockValue> GetStockValues(StockCollection stockCollection, GainModel gainModel)
+        {
+            return gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
         }
 
         public static List<V_LineInfo> GetLineInfos(List<StockValue> stockValues)
