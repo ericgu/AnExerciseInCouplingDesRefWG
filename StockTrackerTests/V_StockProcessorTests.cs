@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Linq;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StockTracker;
 
@@ -16,7 +17,7 @@ namespace StockTrackerTests
 
             E_GainModelMock gainModel = new E_GainModelMock();
 
-            var lineInfos = V_StockProcessor.GetLineInfos(stocks, gainModel);
+            var lineInfos = V_StockProcessor.GetLineInfos(((E_IGainModel) gainModel).GetModel(stocks.EnumerateStocks()).ToList());
 
             lineInfos.Should().Equal(
                 new V_LineInfo("MSFT", 15.0, 100.0, 25.0, 33.0),
