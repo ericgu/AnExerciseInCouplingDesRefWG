@@ -10,9 +10,9 @@ namespace StockTracker
         private readonly StocksStore _stocksRepository;
         private readonly StockCollection _stockCollection;
         private readonly GainModel _gainModel;
-        private readonly GetStockPriceDelegate _getStockPrice;
+        private readonly V_GetStockPriceDelegate _getStockPrice;
 
-        public Form1(StocksStore stocksStore, GainModel gainModel, GetStockPriceDelegate getStockPrice)
+        public Form1(StocksStore stocksStore, GainModel gainModel, V_GetStockPriceDelegate getStockPrice)
         {
             InitializeComponent();
 

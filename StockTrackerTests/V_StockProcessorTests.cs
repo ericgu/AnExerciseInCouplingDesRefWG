@@ -39,7 +39,7 @@ namespace StockTrackerTests
                 { "MSFT", 225.0 },
                 { "GOOG", 433.0 }
             };
-            GetStockPriceDelegate getStockPrice = stockTicker => stockPrices[stockTicker];
+            V_GetStockPriceDelegate getStockPrice = stockTicker => stockPrices[stockTicker];
 
             var stockValues = V_StockProcessor.GetStockValues(stocks, getStockPrice);
 
