@@ -2,7 +2,7 @@
 {
     public class StockValue
     {
-        protected bool Equals(StockValue other)
+        private bool Equals(StockValue other)
         {
             return Stock.Equals(other.Stock) && Price.Equals(other.Price) && StockTotalPrice.Equals(other.StockTotalPrice) && StockGain.Equals(other.StockGain);
         }
