@@ -16,7 +16,8 @@ namespace StockTracker
             Application.Run(
                 new Form1(
                     new StocksStore(),
-                    new GainModel(new StockPriceLoader())));
+                    new GainModel(new StockPriceLoader()),
+                    new StockPriceLoader().Load));
         }
     }
 }

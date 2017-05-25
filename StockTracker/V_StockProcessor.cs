@@ -6,9 +6,9 @@ namespace StockTracker
 {
     public static class V_StockProcessor
     {
-        public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks)
+        public static void RefreshTable(StockCollection stockCollection, GetStockPriceDelegate getStockPrice, ListView listViewStocks)
         {
-            var stockValues = GetStockValues(stockCollection, gainModel);
+            var stockValues = GetStockValues(stockCollection, getStockPrice);
             var lineInfos = GetLineInfos(stockValues);
             var listViewItems = lineInfos.Select(CreateListViewItem).ToArray();
 
@@ -16,9 +16,17 @@ namespace StockTracker
             listViewStocks.Items.AddRange(listViewItems);
         }
 
-        public static List<StockValue> GetStockValues(StockCollection stockCollection, GainModel gainModel)
+        public static List<StockValue> GetStockValues(StockCollection stockCollection, GetStockPriceDelegate getStockPrice)
         {
-            return gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
+            return stockCollection.EnumerateStocks()
+                .Select(stock =>
+                    new
+                    {
+                        Stock = stock,
+                        Price = getStockPrice(stock.Ticker)
+                    })
+                .Select(t => new StockValue(t.Stock, t.Price, t.Stock.GetCurrentValue(t.Price), t.Stock.GetGain(t.Price)))
+                .ToList();
         }
 
         public static List<V_LineInfo> GetLineInfos(List<StockValue> stockValues)
