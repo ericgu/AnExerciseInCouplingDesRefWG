@@ -4,6 +4,8 @@ using System.Net;
 
 namespace StockTracker
 {
+    public delegate double GetStockPriceDelegate(string stockTicker);
+
     public class StockPriceLoader
     {
         public double Load(string stockTicker)
