@@ -17,7 +17,7 @@ namespace StockTrackerTests
                 new StockValue(new Stock("GOOG", 300, 400, "6/10/2020"), 15.0, 25.0, 33.0)
             };
 
-            var lineInfos = V_StockProcessor.GetLineInfos(stockValues);
+            var lineInfos = V_Formatter.GetLineInfos(stockValues);
 
             lineInfos.Should().Equal(
                 new V_LineInfo("MSFT", 15.0, 100.0, 25.0, 33.0),

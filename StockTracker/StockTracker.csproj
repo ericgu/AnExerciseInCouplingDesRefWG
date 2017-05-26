@@ -55,6 +55,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="E_IStockDisplayTable.cs" />
+    <Compile Include="V_Formatter.cs" />
     <Compile Include="V_GetStockPriceDelegate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
