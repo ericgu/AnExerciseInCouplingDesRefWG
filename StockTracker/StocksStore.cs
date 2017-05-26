@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace StockTracker
 {
-    public class StocksStore
+    public class StocksStore : E_IStocksStore
     {
         public void SaveStocks(IEnumerable<Stock> stocks)
         {
