@@ -66,6 +66,7 @@
     <Compile Include="V_StockProcessor.cs" />
     <Compile Include="StockValue.cs" />
     <Compile Include="StocksStore.cs" />
+    <Compile Include="V_StockValuator.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

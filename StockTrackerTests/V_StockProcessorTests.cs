@@ -41,7 +41,7 @@ namespace StockTrackerTests
             };
             V_GetStockPriceDelegate getStockPrice = stockTicker => stockPrices[stockTicker];
 
-            var stockValues = V_StockProcessor.GetStockValues(stocks, getStockPrice);
+            var stockValues = V_StockValuator.GetStockValues(stocks, getStockPrice);
 
             stockValues.Should().Equal(
                 new StockValue(new Stock("MSFT", 100, 100, "5/10/2020"), 225.0, 22500.0, 12500.0),
