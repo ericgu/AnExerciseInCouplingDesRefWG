@@ -11,9 +11,11 @@ namespace StockTracker
         private readonly StockCollection _stockCollection;
         private readonly GainModel _gainModel;
         private readonly V_GetStockPriceDelegate _getStockPrice;
+        private StocksStore _stocksStore;
 
         public Form1(StocksStore stocksStore, GainModel gainModel, V_GetStockPriceDelegate getStockPrice)
         {
+            _stocksStore = stocksStore;
             InitializeComponent();
 
             _stocksRepository = stocksStore;
@@ -28,7 +30,8 @@ namespace StockTracker
 
         private void RefreshValues(object sender, EventArgs e)
         {
-            E_StockProcessor.RefreshTable(_stockCollection, _gainModel, this);
+            E_StockProcessor.RefreshTable(_stocksStore, _gainModel, this);
+
             V_StockProcessor.RefreshTable(_stockCollection, _getStockPrice, _listViewStocks);
         }
 

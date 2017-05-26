@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="E_StocksStoreMock.cs" />
     <Compile Include="E_GainModelMock.cs" />
     <Compile Include="E_StockDisplayTableMock.cs" />
     <Compile Include="V_FormatterTests.cs" />

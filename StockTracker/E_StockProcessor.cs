@@ -4,8 +4,10 @@ namespace StockTracker
 {
     public static class E_StockProcessor
     {
-        public static void RefreshTable(StockCollection stockCollection, E_IGainModel gainModel, E_IStockDisplayTable stockDisplayTable)
+        public static void RefreshTable(E_IStocksStore stocksStore, E_IGainModel gainModel, E_IStockDisplayTable stockDisplayTable)
         {
+            var stockCollection = new StockCollection(stocksStore.LoadStocks());
+
             stockDisplayTable.ClearList();
 
             var stockPriceStockTotalPriceStockGains = gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
