@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -16,7 +15,7 @@ namespace StockTracker
             listViewStocks.Items.AddRange(listViewItems);
         }
 
-        public static ListViewItem CreateListViewItem(V_LineInfo lineInfo)
+        private static ListViewItem CreateListViewItem(V_LineInfo lineInfo)
         {
             var listViewItem = new ListViewItem(lineInfo.Parameters[0].ToString());
 
