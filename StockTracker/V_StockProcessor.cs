@@ -1,40 +1,21 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace StockTracker
 {
-    internal static class V_StockProcessor
+    public static class V_StockProcessor
     {
-        public static void RefreshTable(StockCollection stockCollection, GainModel gainModel, ListView listViewStocks)
+        public static void RefreshTable(StockCollection stockCollection, V_GetStockPriceDelegate getStockPrice, ListView listViewStocks)
         {
-            var lineInfos = GetLineInfos(stockCollection, gainModel);
+            var stockValues = V_StockValuator.GetStockValues(stockCollection, getStockPrice);
+            var lineInfos = V_Formatter.GetLineInfos(stockValues);
             var listViewItems = lineInfos.Select(CreateListViewItem).ToArray();
 
             listViewStocks.Items.Clear();
             listViewStocks.Items.AddRange(listViewItems);
         }
 
-        private static List<V_LineInfo> GetLineInfos(StockCollection stockCollection, GainModel gainModel)
-        {
-            var lineInfos = new List<V_LineInfo>();
-
-            var stockPriceStockTotalPriceStockGains = gainModel.GetModel(stockCollection.EnumerateStocks()).ToList();
-            foreach (var s in stockPriceStockTotalPriceStockGains)
-            {
-                var stock = s.Stock;
-                lineInfos.Add(new V_LineInfo(stock.Ticker, s.Price, stock.Shares, s.StockTotalPrice, s.StockGain));
-            }
-
-            lineInfos.Add(new V_LineInfo("------", "-", "-", "-"));
-
-            lineInfos.Add(new V_LineInfo("Total", "-", "-", stockPriceStockTotalPriceStockGains.Sum(s => s.StockTotalPrice),
-                    stockPriceStockTotalPriceStockGains.Sum(s => s.StockGain)));
-
-            return lineInfos;
-        }
-
-        public static ListViewItem CreateListViewItem(V_LineInfo lineInfo)
+        private static ListViewItem CreateListViewItem(V_LineInfo lineInfo)
         {
             var listViewItem = new ListViewItem(lineInfo.Parameters[0].ToString());
 
