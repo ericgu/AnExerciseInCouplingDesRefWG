@@ -10,24 +10,26 @@ namespace StockTracker
         private readonly StocksStore _stocksRepository;
         private readonly StockCollection _stockCollection;
         private readonly GainModel _gainModel;
+        private readonly V_GetStockPriceDelegate _getStockPrice;
 
-        public Form1(StocksStore stocksStore, GainModel gainModel)
+        public Form1(StocksStore stocksStore, GainModel gainModel, V_GetStockPriceDelegate getStockPrice)
         {
             InitializeComponent();
 
             _stocksRepository = stocksStore;
             _gainModel = gainModel;
+            _getStockPrice = getStockPrice;
             _stockCollection = new StockCollection(stocksStore.LoadStocks());
-            _stockCollection.Changed += (sender, e) => V_StockProcessor.RefreshTable(_stockCollection, _gainModel, _listViewStocks);
+            _stockCollection.Changed += (sender, e) => V_StockProcessor.RefreshTable(_stockCollection, _getStockPrice, _listViewStocks);
             _stockCollection.Changed += (sender, e) => SaveStocks();
 
-            V_StockProcessor.RefreshTable(_stockCollection, _gainModel, _listViewStocks);
+            V_StockProcessor.RefreshTable(_stockCollection, _getStockPrice, _listViewStocks);
         }
 
         private void RefreshValues(object sender, EventArgs e)
         {
             E_StockProcessor.RefreshTable(_stockCollection, _gainModel, this);
-            V_StockProcessor.RefreshTable(_stockCollection, _gainModel, _listViewStocks);
+            V_StockProcessor.RefreshTable(_stockCollection, _getStockPrice, _listViewStocks);
         }
 
         private void AddTicker(object sender, EventArgs e)
