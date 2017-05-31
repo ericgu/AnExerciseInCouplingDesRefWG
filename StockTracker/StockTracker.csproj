@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="E_IGainModel.cs" />
+    <Compile Include="M_StockDisplayData.cs" />
     <Compile Include="M_StockProcessor.cs" />
     <Compile Include="GainModel.cs" />
     <Compile Include="Form1.cs">

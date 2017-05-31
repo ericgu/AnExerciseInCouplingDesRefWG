@@ -15,28 +15,36 @@ namespace StockTracker
 
             var total = CalculateTotalCurrentValueAndGain(stocksWithPriceAndValue);
 
-            SendDataToUi(stockDisplayTable, stocksWithPriceAndValue, total);
+            var displayLines = FormatDataForDisplay(stocksWithPriceAndValue, total);
+
+            RenderDataInUi(stockDisplayTable, displayLines);
         }
 
-        private static void SendDataToUi(E_IStockDisplayTable stockDisplayTable, IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue,
-            M_StockWithPriceAndValue total)
+        private static void RenderDataInUi(E_IStockDisplayTable stockDisplayTable, List<M_StockDisplayData> displayLines)
         {
             stockDisplayTable.ClearList();
 
-            foreach (var stockWithPriceAndValue in stocksWithPriceAndValue)
+            foreach (var displayLine in displayLines)
             {
-                stockDisplayTable.AddItemToList(
-                    stockWithPriceAndValue.Stock.Ticker,
-                    stockWithPriceAndValue.Price,
-                    stockWithPriceAndValue.Stock.Shares,
-                    stockWithPriceAndValue.CurrentValue,
-                    stockWithPriceAndValue.Gain);
+                stockDisplayTable.AddItemToList(displayLine.Items);
             }
+        }
 
-            stockDisplayTable.AddItemToList("------", "-", "-", "-");
+        public static List<M_StockDisplayData> FormatDataForDisplay(IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue, M_StockWithPriceAndValue total)
+        {
+            var displayLines = stocksWithPriceAndValue.Select(
+                s => new M_StockDisplayData(
+                    s.Stock.Ticker,
+                    s.Price,
+                    s.Stock.Shares,
+                    s.CurrentValue,
+                    s.Gain)).ToList();
 
-            stockDisplayTable.AddItemToList("Total", "-", "-",
-                total.CurrentValue, total.Gain);
+            displayLines.Add(new M_StockDisplayData("------", "-", "-", "-"));
+
+            displayLines.Add(new M_StockDisplayData("Total", "-", "-", total.CurrentValue, total.Gain));
+
+            return displayLines;
         }
 
         public static M_StockWithPriceAndValue CalculateTotalCurrentValueAndGain(IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue)
