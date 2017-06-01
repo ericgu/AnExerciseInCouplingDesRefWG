@@ -5,6 +5,7 @@ using StockTracker;
 namespace StockTrackerTests
 {
     [TestClass]
+    // ReSharper disable once InconsistentNaming
     public class E_StockProcessorTests
     {
         [TestMethod]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace StockTracker
 {
+    // ReSharper disable once InconsistentNaming
     public class V_LineInfo
     {
         public V_LineInfo(params object[] parameters)

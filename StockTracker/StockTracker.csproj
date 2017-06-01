@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="E_IGainModel.cs" />
+    <Compile Include="M_IStockDisplayTable.cs" />
+    <Compile Include="M_StockDisplayData.cs" />
+    <Compile Include="M_StockProcessor.cs" />
     <Compile Include="GainModel.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -56,6 +59,8 @@
     </Compile>
     <Compile Include="E_IStockDisplayTable.cs" />
     <Compile Include="E_IStocksStore.cs" />
+    <Compile Include="M_StockWithPriceAndValue.cs" />
+    <Compile Include="M_StockWithPrice.cs" />
     <Compile Include="V_Formatter.cs" />
     <Compile Include="V_GetStockPriceDelegate.cs" />
     <Compile Include="Program.cs" />

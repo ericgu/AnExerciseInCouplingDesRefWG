@@ -4,6 +4,7 @@ using StockTracker;
 
 namespace StockTrackerTests
 {
+    // ReSharper disable once InconsistentNaming
     public class E_GainModelMock : E_IGainModel
     {
         public IEnumerable<StockValue> GetModel(IEnumerable<Stock> enumerateStocks)

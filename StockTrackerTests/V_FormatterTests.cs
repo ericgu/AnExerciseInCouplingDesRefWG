@@ -6,6 +6,7 @@ using StockTracker;
 namespace StockTrackerTests
 {
     [TestClass]
+    // ReSharper disable once InconsistentNaming
     public class V_FormatterTests
     {
         [TestMethod]

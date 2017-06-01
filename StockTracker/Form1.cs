@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
 // ReSharper disable StringIndexOfIsCultureSpecific.1
 
 namespace StockTracker
 {
-    public partial class Form1 : Form, E_IStockDisplayTable
+    public partial class Form1 : Form, E_IStockDisplayTable, M_IStockDisplayTable
     {
         private readonly StocksStore _stocksRepository;
         private readonly StockCollection _stockCollection;
@@ -21,7 +23,7 @@ namespace StockTracker
             _stocksRepository = stocksStore;
             _gainModel = gainModel;
             _getStockPrice = getStockPrice;
-            _stockCollection = new StockCollection(stocksStore.LoadStocks());
+            _stockCollection = stocksStore.LoadStocks();
             _stockCollection.Changed += (sender, e) => V_StockProcessor.RefreshTable(_stockCollection, _getStockPrice, _listViewStocks);
             _stockCollection.Changed += (sender, e) => SaveStocks();
 
@@ -33,6 +35,9 @@ namespace StockTracker
             E_StockProcessor.RefreshTable(_stocksStore, _gainModel, this);
 
             V_StockProcessor.RefreshTable(_stockCollection, _getStockPrice, _listViewStocks);
+
+            M_StockProcessor.RefreshTable(_stocksStore, this);
+
         }
 
         private void AddTicker(object sender, EventArgs e)
@@ -82,6 +87,22 @@ namespace StockTracker
         public void ClearList()
         {
             _listViewStocks.Items.Clear();
+        }
+
+        public void Render(IEnumerable<M_StockDisplayData> stockDisplayDatas)
+        {
+            _listViewStocks.Items.Clear();
+
+            foreach (M_StockDisplayData stockDisplayData in stockDisplayDatas)
+            {
+                var listViewItem = new ListViewItem(stockDisplayData.Items[0]);
+
+                for (int i = 1; i < stockDisplayData.Items.Count; i++)
+                {
+                    listViewItem.SubItems.Add(stockDisplayData.Items[i].ToString());
+                }
+                _listViewStocks.Items.Add(listViewItem);
+            }
         }
     }
 }

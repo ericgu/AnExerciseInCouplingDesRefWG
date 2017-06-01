@@ -2,11 +2,12 @@ using System.Linq;
 
 namespace StockTracker
 {
+    // ReSharper disable once InconsistentNaming
     public static class E_StockProcessor
     {
         public static void RefreshTable(E_IStocksStore stocksStore, E_IGainModel gainModel, E_IStockDisplayTable stockDisplayTable)
         {
-            var stockCollection = new StockCollection(stocksStore.LoadStocks());
+            var stockCollection = stocksStore.LoadStocks();
 
             stockDisplayTable.ClearList();
 

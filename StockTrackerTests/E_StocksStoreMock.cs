@@ -4,6 +4,7 @@ using StockTracker;
 
 namespace StockTrackerTests
 {
+    // ReSharper disable once InconsistentNaming
     public class E_StocksStoreMock : E_IStocksStore
     {
         private List<Stock> _stocks;
@@ -17,9 +18,9 @@ namespace StockTrackerTests
         {
         }
 
-        public List<Stock> LoadStocks()
+        public StockCollection LoadStocks()
         {
-            return _stocks;
+            return new StockCollection(_stocks);
         }
     }
 }
