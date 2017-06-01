@@ -7,15 +7,15 @@ namespace StockTracker
     {
         public static void RefreshTable(E_IStocksStore stocksStore, M_IStockDisplayTable stockDisplayTable)
         {
-            var stockCollection = LoadStocks(stocksStore);
+            StockCollection stockCollection = stocksStore.LoadStocks();
 
-            var stocksWithPrice = AddPriceToStock(stockCollection);
+            IEnumerable<M_StockWithPrice> stocksWithPrice = AddPriceToStock(stockCollection);
 
-            var stocksWithPriceAndValue = CalculateGainAndCurrentValue(stocksWithPrice);
+            IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue = CalculateGainAndCurrentValue(stocksWithPrice);
 
-            var total = CalculateTotalCurrentValueAndGain(stocksWithPriceAndValue);
+            M_StockWithPriceAndValue total = CalculateTotalCurrentValueAndGain(stocksWithPriceAndValue);
 
-            var displayLines = FormatDataForDisplay(stocksWithPriceAndValue, total);
+            List<M_StockDisplayData> displayLines = FormatDataForDisplay(stocksWithPriceAndValue, total);
 
             stockDisplayTable.Render(displayLines);
         }
@@ -63,11 +63,6 @@ namespace StockTracker
 
             return stockCollection.EnumerateStocks()
                 .Select(stock => new M_StockWithPrice() {Stock = stock, Price = stockPriceLoader.Load(stock.Ticker)});
-        }
-
-        private static StockCollection LoadStocks(E_IStocksStore stocksStore)
-        {
-            return new StockCollection(stocksStore.LoadStocks());
         }
     }
 }

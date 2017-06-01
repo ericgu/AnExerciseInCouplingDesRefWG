@@ -23,7 +23,7 @@ namespace StockTracker
             _stocksRepository = stocksStore;
             _gainModel = gainModel;
             _getStockPrice = getStockPrice;
-            _stockCollection = new StockCollection(stocksStore.LoadStocks());
+            _stockCollection = stocksStore.LoadStocks();
             _stockCollection.Changed += (sender, e) => V_StockProcessor.RefreshTable(_stockCollection, _getStockPrice, _listViewStocks);
             _stockCollection.Changed += (sender, e) => SaveStocks();
 

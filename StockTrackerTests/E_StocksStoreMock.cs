@@ -17,9 +17,9 @@ namespace StockTrackerTests
         {
         }
 
-        public List<Stock> LoadStocks()
+        public StockCollection LoadStocks()
         {
-            return _stocks;
+            return new StockCollection(_stocks);
         }
     }
 }

@@ -16,8 +16,17 @@ namespace StockTracker
             File.WriteAllText(filename, contents);
         }
 
-        public List<Stock> LoadStocks()
+        private string GetCacheFilePath()
         {
+            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string filename = Path.Combine(folderPath, "stocks.dat");
+            return filename;
+        }
+
+        public StockCollection LoadStocks()
+        {
+            List<Stock> ret = new List<Stock>();
+
             string filename = GetCacheFilePath();
 
             if (File.Exists(filename))
@@ -26,7 +35,7 @@ namespace StockTracker
 
                 try
                 {
-                    return contents.Split(',')
+                    ret = contents.Split(',')
                         .Select(s =>
                             new Stock(s.Split(':').First(),
                                 Double.Parse(s.Split(':').Skip(1).First()),
@@ -34,21 +43,14 @@ namespace StockTracker
                                 s.Split(':').Skip(3).First()))
                         .ToList();
                 }
-                // ReSharper disable once EmptyGeneralCatchClause
+                    // ReSharper disable once EmptyGeneralCatchClause
                 catch (Exception)
                 {
 
                 }
             }
 
-            return new List<Stock>();
-        }
-
-        private string GetCacheFilePath()
-        {
-            var folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string filename = Path.Combine(folderPath, "stocks.dat");
-            return filename;
+            return new StockCollection(ret);
         }
     }
 }
