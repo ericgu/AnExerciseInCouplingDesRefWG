@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace StockTracker
 {
+    // ReSharper disable once InconsistentNaming
     public class M_StockDisplayData
     {
         readonly List<string> _items = new List<string>();

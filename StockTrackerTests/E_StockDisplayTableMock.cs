@@ -5,6 +5,7 @@ using StockTracker;
 
 namespace StockTrackerTests
 {
+    // ReSharper disable once InconsistentNaming
     public class E_StockDisplayTableMock : E_IStockDisplayTable
     {
         List<string[]> _items = new List<string[]>();

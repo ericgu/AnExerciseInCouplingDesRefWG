@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using StockTracker;
 
+// ReSharper disable once InconsistentNaming
 public static class V_Formatter
 {
     public static List<V_LineInfo> GetLineInfos(List<StockValue> stockValues)

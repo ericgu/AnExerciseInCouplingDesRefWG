@@ -3,6 +3,7 @@ using System.Windows.Forms;
 
 namespace StockTracker
 {
+    // ReSharper disable once InconsistentNaming
     public static class V_StockProcessor
     {
         public static void RefreshTable(StockCollection stockCollection, V_GetStockPriceDelegate getStockPrice, ListView listViewStocks)

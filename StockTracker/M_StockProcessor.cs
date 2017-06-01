@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace StockTracker
 {
+    // ReSharper disable once InconsistentNaming
     public static class M_StockProcessor
     {
         public static void RefreshTable(E_IStocksStore stocksStore, M_IStockDisplayTable stockDisplayTable)

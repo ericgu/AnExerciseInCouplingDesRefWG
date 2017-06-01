@@ -6,6 +6,7 @@ using System;
 
 namespace StockTracker
 {
+    // ReSharper disable once InconsistentNaming
     public class M_StockWithPriceAndValue
     {
         public Stock Stock { get; set; }

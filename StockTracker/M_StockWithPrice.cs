@@ -1,11 +1,10 @@
 // Design discussion comments:
 // Add your comment here, in this format:
-// <alias>: comment
-
 using System;
 
 namespace StockTracker
 {
+    // ReSharper disable once InconsistentNaming
     public class M_StockWithPrice
     {
         public Stock Stock { get; set; }
