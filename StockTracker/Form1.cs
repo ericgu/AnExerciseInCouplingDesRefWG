@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 // ReSharper disable SpecifyACultureInStringConversionExplicitly
 // ReSharper disable StringIndexOfIsCultureSpecific.1
 
 namespace StockTracker
 {
-    public partial class Form1 : Form, E_IStockDisplayTable
+    public partial class Form1 : Form, E_IStockDisplayTable, M_IStockDisplayTable
     {
         private readonly StocksStore _stocksRepository;
         private readonly StockCollection _stockCollection;
@@ -85,6 +87,22 @@ namespace StockTracker
         public void ClearList()
         {
             _listViewStocks.Items.Clear();
+        }
+
+        public void Render(IEnumerable<M_StockDisplayData> stockDisplayDatas)
+        {
+            _listViewStocks.Items.Clear();
+
+            foreach (M_StockDisplayData stockDisplayData in stockDisplayDatas)
+            {
+                var listViewItem = new ListViewItem(stockDisplayData.Items[0]);
+
+                for (int i = 1; i < stockDisplayData.Items.Count; i++)
+                {
+                    listViewItem.SubItems.Add(stockDisplayData.Items[i].ToString());
+                }
+                _listViewStocks.Items.Add(listViewItem);
+            }
         }
     }
 }

@@ -15,6 +15,6 @@ namespace StockTracker
             }
         }
 
-        public IEnumerable<string> Items { get { return _items; } } 
+        public IList<string> Items { get { return _items; } } 
     }
 }

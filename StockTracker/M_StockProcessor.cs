@@ -5,7 +5,7 @@ namespace StockTracker
 {
     public static class M_StockProcessor
     {
-        public static void RefreshTable(E_IStocksStore stocksStore, E_IStockDisplayTable stockDisplayTable)
+        public static void RefreshTable(E_IStocksStore stocksStore, M_IStockDisplayTable stockDisplayTable)
         {
             var stockCollection = LoadStocks(stocksStore);
 
@@ -17,17 +17,7 @@ namespace StockTracker
 
             var displayLines = FormatDataForDisplay(stocksWithPriceAndValue, total);
 
-            RenderDataInUi(stockDisplayTable, displayLines);
-        }
-
-        private static void RenderDataInUi(E_IStockDisplayTable stockDisplayTable, List<M_StockDisplayData> displayLines)
-        {
-            stockDisplayTable.ClearList();
-
-            foreach (var displayLine in displayLines)
-            {
-                stockDisplayTable.AddItemToList(displayLine.Items);
-            }
+            stockDisplayTable.Render(displayLines);
         }
 
         public static List<M_StockDisplayData> FormatDataForDisplay(IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue, M_StockWithPriceAndValue total)
