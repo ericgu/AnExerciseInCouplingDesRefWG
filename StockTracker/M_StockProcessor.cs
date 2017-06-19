@@ -52,7 +52,7 @@ namespace StockTracker
         public static IEnumerable<M_StockWithPriceAndValue> CalculateGainAndCurrentValue(
             IEnumerable<M_StockWithPrice> stocksWithPrice)
         {
-            return stocksWithPrice.Select(CalculateGainAndCurrentValue);
+            return M_Projector.Project(stocksWithPrice, M_StockProcessor.CalculateGainAndCurrentValue);
         }
 
         private static IEnumerable<M_StockWithPrice> AddPriceToStock(StockCollection stockCollection)
