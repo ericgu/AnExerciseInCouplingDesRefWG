@@ -65,5 +65,11 @@ namespace StockTracker
             return stockCollection.EnumerateStocks()
                 .Select(stock => new M_StockWithPrice() {Stock = stock, Price = stockPriceLoader.Load(stock.Ticker)});
         }
+
+        public static M_StockWithPriceAndValue CalculateGainAndCurrentValue(M_StockWithPrice stockWithPrice)
+        {
+            var result = M_StockProcessor.CalculateGainAndCurrentValue(new[] {stockWithPrice});
+            return result.First();
+        }
     }
 }

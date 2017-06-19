@@ -18,16 +18,10 @@ namespace StockTrackerTests
                 Price = 15
             };
 
-            var result = CalculateGainAndCurrentValue(stockWithPrice);
+            var result = M_StockProcessor.CalculateGainAndCurrentValue(stockWithPrice);
 
             result.CurrentValue.Should().Be(75);
             result.Gain.Should().Be(50);
-        }
-
-        private static M_StockWithPriceAndValue CalculateGainAndCurrentValue(M_StockWithPrice stockWithPrice)
-        {
-            var result = M_StockProcessor.CalculateGainAndCurrentValue(new[] {stockWithPrice});
-            return result.First();
         }
 
         [TestMethod]
