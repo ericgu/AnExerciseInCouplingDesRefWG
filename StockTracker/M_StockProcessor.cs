@@ -21,7 +21,8 @@ namespace StockTracker
             stockDisplayTable.Render(displayLines);
         }
 
-        public static List<M_StockDisplayData> FormatDataForDisplay(IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue, M_StockWithPriceAndValue total)
+        public static List<M_StockDisplayData> FormatDataForDisplay(
+            IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue, M_StockWithPriceAndValue total)
         {
             var displayLines = stocksWithPriceAndValue.Select(
                 s => new M_StockDisplayData(
@@ -38,7 +39,8 @@ namespace StockTracker
             return displayLines;
         }
 
-        public static M_StockWithPriceAndValue CalculateTotalCurrentValueAndGain(IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue)
+        public static M_StockWithPriceAndValue CalculateTotalCurrentValueAndGain(
+            IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue)
         {
             return new M_StockWithPriceAndValue()
             {
@@ -47,15 +49,10 @@ namespace StockTracker
             };
         }
 
-        public static IEnumerable<M_StockWithPriceAndValue> CalculateGainAndCurrentValue(IEnumerable<M_StockWithPrice> stocksWithPrice)
+        public static IEnumerable<M_StockWithPriceAndValue> CalculateGainAndCurrentValue(
+            IEnumerable<M_StockWithPrice> stocksWithPrice)
         {
-            return stocksWithPrice.Select(stockWithPrice => new M_StockWithPriceAndValue()
-            {
-                Stock = stockWithPrice.Stock,
-                Price = stockWithPrice.Price,
-                CurrentValue = stockWithPrice.Stock.GetCurrentValue(stockWithPrice.Price),
-                Gain = stockWithPrice.Stock.GetGain(stockWithPrice.Price)
-            });
+            return stocksWithPrice.Select(CalculateGainAndCurrentValue);
         }
 
         private static IEnumerable<M_StockWithPrice> AddPriceToStock(StockCollection stockCollection)
@@ -68,8 +65,13 @@ namespace StockTracker
 
         public static M_StockWithPriceAndValue CalculateGainAndCurrentValue(M_StockWithPrice stockWithPrice)
         {
-            var result = M_StockProcessor.CalculateGainAndCurrentValue(new[] {stockWithPrice});
-            return result.First();
+            return new M_StockWithPriceAndValue()
+            {
+                Stock = stockWithPrice.Stock,
+                Price = stockWithPrice.Price,
+                CurrentValue = stockWithPrice.Stock.GetCurrentValue(stockWithPrice.Price),
+                Gain = stockWithPrice.Stock.GetGain(stockWithPrice.Price)
+            };
         }
     }
 }
