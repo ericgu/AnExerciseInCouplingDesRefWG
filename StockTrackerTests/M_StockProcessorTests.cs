@@ -10,18 +10,27 @@ namespace StockTrackerTests
     public class M_StockProcessorTests
     {
         [TestMethod]
-        public void when_I_call_CalculateGainAndCurrentValue_with_one_stock__the_calculated_values_are_correct()
+        public void when_I_call_CalculateGainAndCurrentValue_with_one_stock__the_CurrentValue_is_correct()
         {
-            M_StockWithPrice stockWithPrice = new M_StockWithPrice
-            {
-                Stock = new Stock("TEST", 5, 5, "12/12/2012"),
-                Price = 15
-            };
+            M_StockProcessor.CalculateGainAndCurrentValue(
+                new M_StockWithPrice
+                {
+                    Stock = new Stock("TEST", 5, 5, "12/12/2012"),
+                    Price = 15
+                })
+            .CurrentValue.Should().Be(75);
+        }
 
-            var result = M_StockProcessor.CalculateGainAndCurrentValue(new[] {stockWithPrice});
-            result.Count().Should().Be(1);
-            result.First().CurrentValue.Should().Be(75);
-            result.First().Gain.Should().Be(50);
+        [TestMethod]
+        public void when_I_call_CalculateGainAndCurrentValue_with_one_stock__the_Gain_is_correct()
+        {
+            M_StockProcessor.CalculateGainAndCurrentValue(
+                new M_StockWithPrice
+                {
+                    Stock = new Stock("TEST", 5, 5, "12/12/2012"),
+                Price = 15
+                })
+            .Gain.Should().Be(50);
         }
 
         [TestMethod]

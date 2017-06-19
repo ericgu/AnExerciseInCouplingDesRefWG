@@ -21,7 +21,8 @@ namespace StockTracker
             stockDisplayTable.Render(displayLines);
         }
 
-        public static List<M_StockDisplayData> FormatDataForDisplay(IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue, M_StockWithPriceAndValue total)
+        public static List<M_StockDisplayData> FormatDataForDisplay(
+            IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue, M_StockWithPriceAndValue total)
         {
             var displayLines = stocksWithPriceAndValue.Select(
                 s => new M_StockDisplayData(
@@ -38,7 +39,8 @@ namespace StockTracker
             return displayLines;
         }
 
-        public static M_StockWithPriceAndValue CalculateTotalCurrentValueAndGain(IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue)
+        public static M_StockWithPriceAndValue CalculateTotalCurrentValueAndGain(
+            IEnumerable<M_StockWithPriceAndValue> stocksWithPriceAndValue)
         {
             return new M_StockWithPriceAndValue()
             {
@@ -47,15 +49,10 @@ namespace StockTracker
             };
         }
 
-        public static IEnumerable<M_StockWithPriceAndValue> CalculateGainAndCurrentValue(IEnumerable<M_StockWithPrice> stocksWithPrice)
+        public static IEnumerable<M_StockWithPriceAndValue> CalculateGainAndCurrentValue(
+            IEnumerable<M_StockWithPrice> stocksWithPrice)
         {
-            return stocksWithPrice.Select(stockWithPrice => new M_StockWithPriceAndValue()
-            {
-                Stock = stockWithPrice.Stock,
-                Price = stockWithPrice.Price,
-                CurrentValue = stockWithPrice.Stock.GetCurrentValue(stockWithPrice.Price),
-                Gain = stockWithPrice.Stock.GetGain(stockWithPrice.Price)
-            });
+            return M_Projector.Project(stocksWithPrice, M_StockProcessor.CalculateGainAndCurrentValue);
         }
 
         private static IEnumerable<M_StockWithPrice> AddPriceToStock(StockCollection stockCollection)
@@ -64,6 +61,17 @@ namespace StockTracker
 
             return stockCollection.EnumerateStocks()
                 .Select(stock => new M_StockWithPrice() {Stock = stock, Price = stockPriceLoader.Load(stock.Ticker)});
+        }
+
+        public static M_StockWithPriceAndValue CalculateGainAndCurrentValue(M_StockWithPrice stockWithPrice)
+        {
+            return new M_StockWithPriceAndValue()
+            {
+                Stock = stockWithPrice.Stock,
+                Price = stockWithPrice.Price,
+                CurrentValue = stockWithPrice.Stock.GetCurrentValue(stockWithPrice.Price),
+                Gain = stockWithPrice.Stock.GetGain(stockWithPrice.Price)
+            };
         }
     }
 }
